@@ -1,0 +1,37 @@
+import { bookingUrl, site } from './site';
+
+const experiences = [
+  { number: '01', title: 'Spearfishing', tag: 'THE HUNT', description: 'Get below the surface and into the hunt. Plan a Bali spearfishing trip with dogtooth tuna in your sights.', action: 'Plan a spearfishing trip', interest: 'spearfishing for dogtooth tuna' },
+  { number: '02', title: 'Freediving', tag: 'THE STILLNESS', description: 'One breath. A different world. Make time for the blue with a freediving trip in Bali.', action: 'Plan a freediving trip', interest: 'freediving' },
+  { number: '03', title: 'Charters', tag: 'THE OPEN WATER', description: "Take your day offshore. Tell us about your group and the trip you have in mind, and let's talk charters.", action: 'Enquire about a charter', interest: 'a boat charter' },
+];
+const faqs = [
+  ['How do I book a trip?', 'Tap any WhatsApp button to start a chat with Bali Monster Spearfishing. Send your preferred activity, dates, group size, and experience. We will discuss the details with you before you book.'],
+  ['Do I need previous experience?', 'Tell us about your swimming, freediving, and spearfishing experience when you enquire. We will discuss trip suitability with you before confirming.'],
+  ['What does a trip cost and include?', 'Ask us on WhatsApp for pricing and inclusions for your chosen trip. Confirm equipment, transport, meeting points, and anything you need to bring before booking.'],
+  ['Can I plan a trip around dogtooth tuna?', "Yes, tell us you're interested in hunting dogtooth tuna. We will discuss your experience and the trip options with you. Conditions and encounters vary, and catches are never guaranteed."],
+];
+function Arrow() { return <span aria-hidden="true">↗</span>; }
+function Brand() {
+  return <a className="brand" href="#top" aria-label="Bali Monster Spearfishing home"><span className="brand-mark" aria-hidden="true">BM<span>↗</span></span><span>BALI MONSTER<small>SPEARFISHING</small></span></a>;
+}
+export default function Home() {
+  return <>
+    <a className="skip-link" href="#main">Skip to content</a>
+    <header className="site-header" id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="#experiences">The experiences</a><a href="#the-hunt">The hunt</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header>
+    <main id="main">
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-photo" role="img" aria-label="A freediver suspended in the deep blue ocean" /><div className="hero-shade" />
+        <div className="container hero-inner"><div className="hero-copy"><p className="eyebrow"><span className="status-dot" /> BALI, INDONESIA · BEYOND THE SURFACE</p><h1 id="hero-title">CHASE THE<br /><span>DEEP BLUE.</span></h1><p className="hero-description">Spearfishing. Freediving. Charters.<br />Get out on the water with Bali Monster Spearfishing.</p><a className="button button-lime" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a><p className="button-note">Your next adventure starts with a conversation.</p></div><div className="hero-side-note" aria-hidden="true">LESS NOISE. MORE OCEAN.</div><div className="hero-bottom"><span>ONE ISLAND. A WHOLE OTHER WORLD.</span><a href="#experiences">Explore the experiences <span aria-hidden="true">↓</span></a></div></div>
+      </section>
+      <div className="activity-strip" aria-hidden="true"><div className="container"><span>SPEARFISHING</span><i>✳︎</i><span>FREEDIVING</span><i>✳︎</i><span>CHARTERS</span><i>✳︎</i><span>BALI, INDONESIA</span></div></div>
+      <section className="experiences section-light" id="experiences" aria-labelledby="experiences-title"><div className="container"><div className="section-heading"><div><p className="eyebrow">01 / FIND YOUR ADVENTURE</p><h2 id="experiences-title">YOUR KIND<br />OF WILD.</h2></div><p>For the hunt. For the quiet.<br />For a day far from the everyday.<br />Find your reason to get out there.</p></div><div className="experience-grid">{experiences.map(experience => <article className="experience" key={experience.number}><div className="experience-top"><span>{experience.number}</span><span>{experience.tag}</span></div><h3>{experience.title}</h3><p>{experience.description}</p><a href={bookingUrl(experience.interest)}>{experience.action}<Arrow /></a></article>)}</div></div></section>
+      <section className="hunt" id="the-hunt" aria-labelledby="hunt-title"><div className="container hunt-grid"><div className="hunt-image"><div className="image-caption"><span>THE OCEAN SETS THE PACE.</span><Arrow /></div></div><div className="hunt-copy"><p className="eyebrow">02 / THIS IS WHAT WE COME FOR</p><h2 id="hunt-title">BIG BLUE.<br />BIGGER<br /><span>AMBITION.</span></h2><p className="hunt-lead">Dogtooth tuna. The hunt that brings us back.</p><p>Come to Bali with a hunt in mind. Tell us your experience, your dates, and what you&apos;re chasing. We&apos;ll talk through the spearfishing trip with you.</p><p className="conditions">Every trip starts with a conversation about experience and conditions. Catches are never guaranteed.</p><a className="text-link" href={bookingUrl('spearfishing for dogtooth tuna')}>Let&apos;s talk dogtooth <Arrow /></a></div></div></section>
+      <section className="booking section-light" id="plan-your-trip" aria-labelledby="booking-title"><div className="container booking-grid"><div><p className="eyebrow">03 / MAKE IT HAPPEN</p><h2 id="booking-title">GOOD TRIPS<br />START HERE.</h2><p>No long forms. Just a conversation.</p></div><ol className="booking-steps"><li><span>01</span><div><h3>Tell us what you&apos;re into.</h3><p>Spearfishing, freediving, or a charter. Have something specific in mind? Let us know.</p></div></li><li><span>02</span><div><h3>Share a few details.</h3><p>Your dates, group size, and experience help us talk through the right trip for you.</p></div></li><li><span>03</span><div><h3>Plan it together.</h3><p>We&apos;ll discuss availability, pricing, meeting points, and what to bring on WhatsApp.</p></div></li></ol></div></section>
+      <section className="faq section-light" aria-labelledby="faq-title"><div className="container faq-grid"><div><p className="eyebrow">BEFORE YOU DIVE IN</p><h2 id="faq-title">A FEW<br />GOOD QUESTIONS.</h2></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+      <section className="final-cta" aria-labelledby="cta-title"><div className="container"><p className="eyebrow">BALI IS CALLING.</p><h2 id="cta-title">SEE YOU<br />OUT THERE.</h2><a className="button button-dark" href={bookingUrl()}>Chat with us on WhatsApp <Arrow /></a><a className="contact-number" href={bookingUrl()}>{site.phoneDisplay}</a></div><span className="cta-decoration" aria-hidden="true">↗</span></section>
+    </main>
+    <footer className="site-footer"><div className="container footer-main"><Brand /><p>Spearfishing, freediving &amp; charters.<br />Bali, Indonesia.</p><a href={bookingUrl()}>Let&apos;s get on the water <Arrow /></a></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Bali Monster Spearfishing</span><span>balimonster.com</span></div></footer>
+    <a className="mobile-booking" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a>
+  </>;
+}

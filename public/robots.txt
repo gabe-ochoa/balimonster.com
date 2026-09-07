@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://balimonster.com/sitemap.xml
