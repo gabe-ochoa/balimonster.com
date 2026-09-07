@@ -25,8 +25,9 @@ npm run lint
 npm test
 ```
 
-The rendered HTML test checks the built Cloudflare Worker locally with mocked asset access.
-It verifies the WhatsApp recipient and enquiry text without contacting WhatsApp.
+The tests check the exported homepage, 404 page, referenced assets, and domain metadata.
+They verify the WhatsApp recipient and enquiry text without contacting WhatsApp.
+Run `npm start` after building to preview the static site with the local Pages server.
 
 ## Editing
 
@@ -36,17 +37,32 @@ It verifies the WhatsApp recipient and enquiry text without contacting WhatsApp.
 - `app/layout.tsx`: fonts and metadata.
 - `public/`: locally served imagery, social card, sitemap, and robots file.
 
-## Cloudflare handoff
+## Cloudflare Pages setup
 
-This site uses React, vinext, Vite, and the Cloudflare Vite plugin.
-`npm run build` produces the Worker and assets in `dist/`.
-The Cloudflare plugin writes deployment configuration in the build output.
-The Sites plugin also copies `.openai/hosting.json` into the build output.
-No D1, R2, secrets, or provider bindings are required for the landing page.
-Publishing and domain changes require approval. This version is local only.
+Connect [gabe-ochoa/balimonster.com](https://github.com/gabe-ochoa/balimonster.com) in Cloudflare Pages with:
 
-This is an independent Git repository at `~/code/balispearfishing` on `codex/bali-monster`.
-It is separate from the txt.wedding workspace.
+| Setting | Value |
+| --- | --- |
+| Production branch | `codex/bali-monster` |
+| Framework preset | None |
+| Build command | `npm run build` |
+| Build output directory | `dist/client` |
+| Root directory | Repository root (leave blank) |
+| Environment variable | `NODE_VERSION=22.17.0` |
+
+Keep the committed Bun lockfile so Pages can install the pinned dependencies.
+The site uses React, vinext, and Vite with `output: "export"`.
+Only `dist/client` is published. `dist/server` contains build-time rendering code and must not be uploaded.
+No Workers runtime, Pages Functions, bindings, or secrets are required.
+The exported `404.html` makes unknown URLs return a not-found page instead of the homepage.
+The copyright year is generated at build time.
+
+After the first deployment, add `balimonster.com` under the Pages project's Custom domains and follow Cloudflare's DNS instructions.
+Publishing and DNS changes are handled separately by the owner.
+The existing `.openai/hosting.json` is retained for project compatibility and is not used by Pages.
+
+References: [Pages build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/),
+[Pages static routing](https://developers.cloudflare.com/pages/configuration/serving-pages/).
 
 ## Content and image sources
 

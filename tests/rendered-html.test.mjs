@@ -1,19 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { access, readFile } from 'node:fs/promises';
 
-async function render(path = '/') {
-  const { default: worker } = await import('../dist/server/index.js');
-  return worker.fetch(new Request(`https://balimonster.com${path}`, {
-    headers: { accept: 'text/html' },
-  }), { ASSETS: { fetch: async () => new Response('Not found', { status: 404 }) } }, {
-    waitUntil() {}, passThroughOnException() {},
-  });
-}
+const output = new URL('../dist/client/', import.meta.url);
+const readOutput = (path) => readFile(new URL(path, output), 'utf8');
 
 test('serves the complete page and sends all enquiries to the correct WhatsApp recipient', async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  const html = await response.text();
+  const html = await readOutput('index.html');
   assert.match(html, /<title>Bali Monster Spearfishing/);
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com/);
   assert.match(html, /CHASE THE/);
@@ -34,6 +27,29 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project|balimonsterspearfishing\.com|txt\.wedding/);
 });
 
-test('unknown routes return 404 instead of a booking page', async () => {
-  assert.equal((await render('/not-a-page')).status, 404);
+test('exports a real 404 page so Pages does not fall back to the homepage', async () => {
+  const html = await readOutput('404.html');
+  assert.match(html, /404/);
+  assert.doesNotMatch(html, /CHASE THE/);
+});
+
+test('exports all referenced assets and domain discovery files', async () => {
+  for (const file of ['index.html', '404.html']) {
+    const html = await readOutput(file);
+    const assets = [...html.matchAll(/(?:src|href)="(\/[^"#?]+)"/g)].map(match => match[1]);
+    assert.ok(assets.some(path => path.endsWith('.css')));
+    for (const path of assets) {
+      await access(new URL(`.${path}`, output));
+      if (path.endsWith('.css')) {
+        const css = await readOutput(`.${path}`);
+        for (const [, asset] of css.matchAll(/url\(["']?(\/[^)"']+)["']?\)/g)) {
+          await access(new URL(`.${asset}`, output));
+        }
+      }
+    }
+  }
+  await access(new URL('og.png', output));
+  assert.match(await readOutput('robots.txt'), /Sitemap: https:\/\/balimonster\.com\/sitemap\.xml/);
+  assert.match(await readOutput('sitemap.xml'), /<loc>https:\/\/balimonster\.com\/<\/loc>/);
+  await assert.rejects(access(new URL('_worker.js', output)), { code: 'ENOENT' });
 });
