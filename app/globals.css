@@ -293,3 +293,5 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
 .brand {mix-blend-mode:normal}
 .brand::before {content:'';position:absolute;inset:0;background:white;mask-image:url('/brand/bali-monster-logo.jpg');mask-mode:luminance;mask-size:140% auto;mask-position:center;mask-repeat:no-repeat}
 .brand img {opacity:0}
+/* Darken the original icon's near-white outlines while keeping its white backdrop white. */
+.brand-illustration {filter:invert(1) brightness(8) invert(1)}
