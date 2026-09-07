@@ -289,3 +289,7 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .brand-illustration {position:relative;display:block;transform:none;top:auto;right:auto;width:min(100%,470px);margin:15px auto 0}
   .footer-main .brand {width:min(175px,100%)}
 }
+/* Use the supplied white artwork as a luminance mask on dark backgrounds. */
+.brand {mix-blend-mode:normal}
+.brand::before {content:'';position:absolute;inset:0;background:white;mask-image:url('/brand/bali-monster-logo.jpg');mask-mode:luminance;mask-size:140% auto;mask-position:center;mask-repeat:no-repeat}
+.brand img {opacity:0}
