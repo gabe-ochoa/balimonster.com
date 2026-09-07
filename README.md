@@ -9,6 +9,7 @@ No messages are sent automatically. No database, authentication, payment flow, o
 Use Node 22.13 or newer. Node 22.17 was used during development.
 
 ```sh
+cd ~/code/balispearfishing
 bun install --frozen-lockfile
 npm run dev -- --host 127.0.0.1
 ```
@@ -44,9 +45,8 @@ The Sites plugin also copies `.openai/hosting.json` into the build output.
 No D1, R2, secrets, or provider bindings are required for the landing page.
 Publishing and domain changes require approval. This version is local only.
 
-This is a separate nested Git repository on `codex/bali-monster`.
-The surrounding txt.wedding application and its Git history remain untouched.
-Move or clone this directory into a dedicated workspace before connecting a production repository.
+This is an independent Git repository at `~/code/balispearfishing` on `codex/bali-monster`.
+It is separate from the txt.wedding workspace.
 
 ## Content and image sources
 
