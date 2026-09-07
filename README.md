@@ -43,7 +43,7 @@ Connect [gabe-ochoa/balimonster.com](https://github.com/gabe-ochoa/balimonster.c
 
 | Setting | Value |
 | --- | --- |
-| Production branch | `codex/bali-monster` |
+| Production branch | `main` |
 | Framework preset | None |
 | Build command | `npm run build` |
 | Build output directory | `dist/client` |
