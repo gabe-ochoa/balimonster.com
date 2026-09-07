@@ -1,7 +1,7 @@
 # Bali Monster Spearfishing
 
 A homepage and trip gallery for **balimonster.com**. Spearfishing, freediving, and charters in Bali.
-All booking links open WhatsApp for **+1 512 767 9350** with an activity-specific enquiry.
+All booking links open WhatsApp for **+62 822-3695-4017** with an activity-specific enquiry.
 No messages are sent automatically. No database, authentication, payment flow, or backend credentials are required.
 
 ## Local preview
