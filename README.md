@@ -67,6 +67,10 @@ The existing `.openai/hosting.json` is retained for project compatibility and is
 References: [Pages build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/),
 [Pages static routing](https://developers.cloudflare.com/pages/configuration/serving-pages/).
 
+## Brand artwork
+
+The main wordmark and illustrated fish/boat icon were supplied by the owner. Original JPEGs are preserved in `public/brand/`. The header and footer frame the wordmark with CSS; the icon appears in the booking panels and as the browser icon.
+
 ## Content and media
 
 Business facts and booking details came from the owner on 2026-09-07.

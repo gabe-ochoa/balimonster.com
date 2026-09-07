@@ -8,6 +8,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
+  icons: { icon: [{ url: '/brand/icon-192.png', type: 'image/png', sizes: '192x192' }], apple: '/brand/icon-192.png' },
   title: 'Bali Monster Spearfishing | Spearfishing, Freediving & Charters',
   description: site.description,
   alternates: { canonical: site.url },

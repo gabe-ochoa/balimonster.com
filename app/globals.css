@@ -25,9 +25,6 @@ h3 {line-height:1.2}
 .site-header {position:absolute;top:0;left:0;width:100%;z-index:2}
 .header-inner {display:flex;align-items:center;justify-content:space-between;height:106px;border-bottom:1px solid var(--line-dark)}
 .brand {display:inline-flex;gap:12px;align-items:center;font-weight:800;letter-spacing:.6px;font-size:14px;line-height:1.25}
-.brand small {display:block;font-size:9px;letter-spacing:3px;margin-top:5px}
-.brand-mark {width:43px;height:43px;border:1px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display),Impact,sans-serif;font-size:19px;position:relative;letter-spacing:-1px}
-.brand-mark>span {position:absolute;right:-5px;top:-5px;color:var(--lime);font-family:Arial,sans-serif;font-size:22px}
 .site-header nav {display:flex;align-items:center;gap:37px;font-size:12px;font-weight:600}
 .site-header nav>a:not(.header-cta):hover {color:var(--lime)}
 .header-cta {border:1px solid var(--water);padding:9px 17px;display:flex;align-items:center;gap:30px}
@@ -110,7 +107,6 @@ h3 {line-height:1.2}
 .button-dark:hover {background:var(--ocean-soft)}
 .contact-number {display:block;width:fit-content;margin-top:14px;font-size:11px;font-weight:600;letter-spacing:.6px}
 .contact-number:hover {text-decoration:underline}
-.cta-decoration {position:absolute;right:9%;top:-50px;font-size:500px;font-family:Arial,sans-serif;line-height:1.2;font-weight:400;opacity:.12}
 .site-footer {padding:45px 0 20px}
 .footer-main {display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:40px}
 .footer-main>p {font-size:11px;color:var(--water);margin:0;line-height:1.9}
@@ -141,8 +137,6 @@ h3 {line-height:1.2}
   .container {width:calc(100% - 40px)}
   .header-inner {height:86px}
   .brand {font-size:12px;gap:9px}
-  .brand small {font-size:8px;letter-spacing:2.6px}
-  .brand-mark {height:35px;width:35px;font-size:17px}
   .site-header nav {gap:0}
   .site-header nav>a:not(.header-cta) {display:none}
   .header-cta {font-size:11px;padding:8px 12px;gap:17px}
@@ -191,7 +185,6 @@ h3 {line-height:1.2}
   .faq-list summary {font-size:12px}
   .final-cta {padding:60px 0}
   .final-cta h2 {font-size:95px}
-  .cta-decoration {font-size:340px;top:12px;right:-104px}
   .button-dark {font-size:11px;gap:26px}
   .footer-main {display:grid;grid-template-columns:1fr 1fr;gap:30px 20px;padding-bottom:30px;align-items:start}
   .footer-main>p {font-size:10px;text-align:right}
@@ -277,4 +270,22 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .photo-collection {columns:1}
   .gallery-section-heading h2 {font-size:52px}
   .footer-main .footer-gallery {grid-column:1/-1;font-size:12px}
+}
+
+/* Supplied artwork stays intact; frame its built-in margins in CSS. */
+.brand {position:relative;display:block;width:270px;height:62px;flex-shrink:0;overflow:hidden;mix-blend-mode:screen}
+.brand img {position:absolute;width:140%;max-width:none;height:auto;left:-20%;top:50%;transform:translateY(-50%)}
+.brand-illustration {position:absolute;right:0;top:50%;transform:translateY(-50%);width:52%;height:auto;mix-blend-mode:multiply;pointer-events:none}
+.final-cta .container {max-width:1280px}
+@media(max-width:1000px) {
+  .brand {width:220px;height:55px}
+  .brand-illustration {width:49%}
+}
+@media(max-width:700px) {
+  .brand {width:clamp(132px,42vw,165px);height:45px}
+  .site-header nav {gap:9px}
+  .header-cta {font-size:10px}
+  .final-cta {padding-bottom:0}
+  .brand-illustration {position:relative;display:block;transform:none;top:auto;right:auto;width:min(100%,470px);margin:15px auto 0}
+  .footer-main .brand {width:min(175px,100%)}
 }
