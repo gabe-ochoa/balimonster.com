@@ -9,7 +9,7 @@ Replace the illustrative stock presentation with real promotional photos and vid
 - The owner supplied the album name and authorized its promotional media for the site on 2026-09-07.
 - The owner explicitly retained the existing direction and withdrew the Riz-centered and “slay” direction. Keep “Chase the deep blue”, the navy/lime palette, and the adventure tone.
 - Spearfishing, freediving, and charters are the existing activities (`app/page.tsx`).
-- Bookings use +62 822-3695-4017 and activity-specific WhatsApp messages (`app/site.ts`).
+- Bookings use +1 512 767 9350 and activity-specific WhatsApp messages (`app/site.ts`).
 - Hosting is a static vinext export on Cloudflare Pages (`next.config.ts`, `README.md`).
 - Existing colors and typography provide a usable navy, lime, and condensed-type identity (`app/globals.css`).
 

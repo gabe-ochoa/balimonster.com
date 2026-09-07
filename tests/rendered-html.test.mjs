@@ -14,7 +14,7 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
   const links = [...html.matchAll(/<a\b[^>]*href="(https:\/\/wa\.me\/[^"]+)"/g)].map(match => new URL(match[1].replaceAll('&amp;', '&').replaceAll('&#x27;', "'")));
   assert.ok(links.length >= 8, 'booking links render without needing client JavaScript');
   for (const link of links) {
-    assert.equal(link.pathname, '/6282236954017');
+    assert.equal(link.pathname, '/15127679350');
     const message = link.searchParams.get('text');
     assert.match(message, /^Hi Bali Monster!/);
     assert.match(message, /Preferred dates:/);
@@ -75,7 +75,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   }
   for (const [, href] of html.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)) {
     const url = new URL(href.replaceAll('&amp;', '&').replaceAll('&#x27;', "'"));
-    assert.equal(url.pathname, '/6282236954017');
+    assert.equal(url.pathname, '/15127679350');
     assert.match(url.searchParams.get('text'), /Preferred dates:/);
   }
   assert.match(await readOutput('sitemap.xml'), /<loc>https:\/\/balimonster\.com\/gallery<\/loc>/);
