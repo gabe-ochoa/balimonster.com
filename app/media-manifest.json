@@ -1,0 +1,132 @@
+{
+  "photos": [
+    {
+      "id": "between-dives",
+      "original": "IMG_1576.JPG",
+      "alt": "A spearfisher sits on the boat with a coastal rock arch behind him.",
+      "title": "Between dives",
+      "caption": "A moment above the surface.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "back-at-the-boat",
+      "original": "IMG_1577.JPG",
+      "alt": "A masked spearfisher holds a catch in the water beside the boat.",
+      "title": "Back at the boat",
+      "caption": "The view from the other side of the rail.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "blue-water-catch",
+      "original": "IMG_1580.JPG",
+      "alt": "A smiling spearfisher holds a large silver catch with blue water and cliffs behind him.",
+      "title": "A moment worth keeping",
+      "caption": "Back aboard, with a story to tell.",
+      "width": 1280,
+      "height": 1916
+    },
+    {
+      "id": "two-catches",
+      "original": "IMG_1583.JPG",
+      "alt": "Two spearfishers sit aboard a blue boat holding their catches against a coastal backdrop.",
+      "title": "Better together",
+      "caption": "Shared days. Shared stories.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "catch-closeup",
+      "original": "IMG_1586.JPG",
+      "alt": "A smiling spearfisher holds a silver catch beside his shoulder.",
+      "title": "That feeling",
+      "caption": "A face that says it all.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "on-the-boat",
+      "original": "IMG_1590.JPG",
+      "alt": "A spearfisher sits on a blue boat holding his equipment with green cliffs across the water.",
+      "title": "The time in between",
+      "caption": "Salt on your skin. Blue in every direction.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "sunset-return",
+      "original": "IMG_2826.jpeg",
+      "alt": "A person sits at the bow of an outrigger boat with catches on the deck and the sun setting ahead.",
+      "title": "The way home",
+      "caption": "Last light on the water.",
+      "width": 1280,
+      "height": 1706
+    },
+    {
+      "id": "sunset-crew",
+      "original": "IMG_2838.jpeg",
+      "alt": "Two smiling spearfishers sit on a blue boat behind their catches at sunset.",
+      "title": "One for the memories",
+      "caption": "The end of a day on the water.",
+      "width": 1280,
+      "height": 960
+    },
+    {
+      "id": "boat-day",
+      "original": "IMG_3282.jpeg",
+      "alt": "Three people pose with catches beneath the canopy of a colorful fishing boat.",
+      "title": "A day together",
+      "caption": "Good company, all the way back.",
+      "width": 1280,
+      "height": 1706
+    },
+    {
+      "id": "at-the-surface",
+      "original": "7282d3f7934fc685d7a0f03a0e5f9139.jpeg",
+      "alt": "Divers wearing masks and long fins float at the surface of the open sea.",
+      "title": "At the surface",
+      "caption": "A little time in the blue.",
+      "width": 1280,
+      "height": 960
+    }
+  ],
+  "videos": [
+    {
+      "id": "coastal-run",
+      "original": "DJI_20260702121816_0003_D.mov",
+      "title": "Along the coast",
+      "description": "An aerial view follows a boat across blue water beside a coastal rock arch.",
+      "start": 0,
+      "duration": 22,
+      "posterTime": 7,
+      "audio": false,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "below-the-surface",
+      "original": "player_export.mov",
+      "title": "Below the surface",
+      "description": "An underwater view follows a diver through blue water and back toward the surface.",
+      "start": 0,
+      "duration": 15,
+      "posterTime": 7,
+      "audio": false,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "heading-home",
+      "original": "GX010216.mov",
+      "title": "Heading home",
+      "description": "A sunset boat ride, with the day\u2019s catches on deck and the wake stretching behind.",
+      "start": 0,
+      "duration": 25,
+      "posterTime": 2,
+      "audio": false,
+      "width": 1280,
+      "height": 720
+    }
+  ]
+}

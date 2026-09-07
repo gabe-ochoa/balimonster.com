@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir, stat } from 'node:fs/promises';
 
 const output = new URL('../dist/client/', import.meta.url);
 const readOutput = (path) => readFile(new URL(path, output), 'utf8');
@@ -34,10 +34,14 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', '404.html']) {
+  for (const file of ['index.html', 'gallery.html', '404.html']) {
     const html = await readOutput(file);
-    const assets = [...html.matchAll(/(?:src|href)="(\/[^"#?]+)"/g)].map(match => match[1]);
+    const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
+    assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
     assert.ok(assets.some(path => path.endsWith('.css')));
+    for (const [, set] of html.matchAll(/srcSet="([^"]+)"/gi)) {
+      for (const candidate of set.split(',')) assets.push(candidate.trim().split(/\s+/)[0]);
+    }
     for (const path of assets) {
       await access(new URL(`.${path}`, output));
       if (path.endsWith('.css')) {
@@ -48,8 +52,55 @@ test('exports all referenced assets and domain discovery files', async () => {
       }
     }
   }
-  await access(new URL('og.png', output));
+  await access(new URL('media/two-catches-1280.jpg', output));
   assert.match(await readOutput('robots.txt'), /Sitemap: https:\/\/balimonster\.com\/sitemap\.xml/);
   assert.match(await readOutput('sitemap.xml'), /<loc>https:\/\/balimonster\.com\/<\/loc>/);
   await assert.rejects(access(new URL('_worker.js', output)), { code: 'ENOENT' });
+});
+
+
+test('gallery has its own metadata, real media, and working booking links', async () => {
+  const html = await readOutput('gallery.html');
+  assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
+  assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
+  assert.match(html, /From the Water/);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 10);
+  const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
+  assert.equal(videos.length, 3);
+  for (const [, attributes] of videos) {
+    assert.match(attributes, /controls/);
+    assert.match(attributes, /preload="none"/);
+    assert.match(attributes, /poster="\/media\//);
+    assert.doesNotMatch(attributes, /autoPlay|autoplay/);
+  }
+  for (const [, href] of html.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)) {
+    const url = new URL(href.replaceAll('&amp;', '&').replaceAll('&#x27;', "'"));
+    assert.equal(url.pathname, '/15127679350');
+    assert.match(url.searchParams.get('text'), /Preferred dates:/);
+  }
+  assert.match(await readOutput('sitemap.xml'), /<loc>https:\/\/balimonster\.com\/gallery<\/loc>/);
+});
+
+test('internal navigation and anchors resolve in the static export', async () => {
+  const pages = { '/': 'index.html', '/gallery': 'gallery.html' };
+  for (const [route, file] of Object.entries(pages)) {
+    const html = await readOutput(file);
+    assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
+    for (const [, href] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
+      const url = new URL(href, `https://balimonster.com${route}`);
+      if (url.origin !== 'https://balimonster.com') continue;
+      const target = pages[url.pathname];
+      if (!target) { await access(new URL(`.${url.pathname}`, output)); continue; }
+      if (url.hash) assert.ok((await readOutput(target)).includes(`id="${url.hash.slice(1)}"`), href);
+    }
+  }
+});
+
+test('published media fits Pages limits and excludes original videos', async () => {
+  const files = await readdir(new URL('media/', output));
+  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 3);
+  for (const file of files) {
+    assert.match(file, /\.(jpg|mp4)$/);
+    assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
+  }
 });

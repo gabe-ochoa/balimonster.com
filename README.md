@@ -1,6 +1,6 @@
 # Bali Monster Spearfishing
 
-One-page site for **balimonster.com**. Spearfishing, freediving, and charters in Bali.
+A homepage and trip gallery for **balimonster.com**. Spearfishing, freediving, and charters in Bali.
 All booking links open WhatsApp for **+1 512 767 9350** with an activity-specific enquiry.
 No messages are sent automatically. No database, authentication, payment flow, or backend credentials are required.
 
@@ -25,14 +25,17 @@ npm run lint
 npm test
 ```
 
-The tests check the exported homepage, 404 page, referenced assets, and domain metadata.
+The tests check the exported homepage, gallery, 404 page, referenced media, and domain metadata.
 They verify the WhatsApp recipient and enquiry text without contacting WhatsApp.
 Run `npm start` after building to preview the static site with the local Pages server.
 
 ## Editing
 
 - `app/site.ts`: business name, domain, phone, and WhatsApp message template.
-- `app/page.tsx`: content and section layout.
+- `app/page.tsx`: homepage content and section layout.
+- `app/gallery/page.tsx`: real trip photo and video gallery.
+- `app/components.tsx`: shared navigation, footer, and media rendering.
+- `app/media-manifest.json`: selected media, descriptions, and source filenames.
 - `app/globals.css`: responsive styles and color tokens.
 - `app/layout.tsx`: fonts and metadata.
 - `public/`: locally served imagery, social card, sitemap, and robots file.
@@ -64,12 +67,28 @@ The existing `.openai/hosting.json` is retained for project compatibility and is
 References: [Pages build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/),
 [Pages static routing](https://developers.cloudflare.com/pages/configuration/serving-pages/).
 
-## Content and image sources
+## Brand artwork
 
-Business facts and booking details came from the owner in this conversation on 2026-09-07.
+The main wordmark and illustrated fish/boat icon were supplied by the owner. Original JPEGs are preserved in `public/brand/`. The header and footer frame the wordmark with CSS; the icon appears in the booking panels and as the browser icon.
+
+## Content and media
+
+Business facts and booking details came from the owner on 2026-09-07.
 Prices, certifications, equipment inclusions, customer reviews, and meeting locations are not assumed.
-Ocean photography is illustrative stock, not a photograph of the business or a promised dive location.
+The owner retained the original “Chase the deep blue” direction and supplied `~/Desktop/BaliPhotos` with real promotional photos and videos from their trips.
 
-- Ocean photo: [Unsplash freediver collection](https://unsplash.com/s/photos/freediver), image `photo-1581260163220-7fb2c70bebaa`.
-- Booking format: [WhatsApp click to chat documentation](https://faq.whatsapp.com/5913398998672934).
-- Social card: generated with the built-in image generation tool. Prompt: deep navy and lime ocean adventure card with the brand name, “CHASE THE DEEP BLUE.”, the three activities, and `balimonster.com`. Corrected the earlier domain in one edit.
+The website uses ten selected photos and three silent video excerpts from that export. The hero is a frame from the supplied underwater clip. The social preview uses a real catch photo. No stock or AI-generated imagery remains.
+
+`app/media-manifest.json` maps each published selection to its original filename. Published derivatives are under `public/media/`; source exports are not committed. Images are resized JPEGs in two widths, with descriptive alt text. Videos are H.264 MP4s with posters, controls, inline playback, no audio, and `preload="none"`. Each file is below the [Cloudflare Pages 25 MiB asset limit](https://developers.cloudflare.com/pages/platform/limits/).
+
+To regenerate the selected media locally with FFmpeg and FFprobe installed:
+
+```sh
+python3 scripts/prepare-media.py ~/Desktop/BaliPhotos
+npm run build
+npm test
+```
+
+The script reads originals without changing them, removes source metadata, and exports only the selected files. The silent excerpts do not include source audio. Review provenance and alt text when changing a source selection.
+
+Booking format: [WhatsApp click to chat documentation](https://faq.whatsapp.com/5913398998672934).
