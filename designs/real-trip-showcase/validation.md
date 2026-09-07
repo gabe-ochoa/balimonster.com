@@ -16,3 +16,7 @@
 The first browser click check reproduced a vinext `next/link` handler exception that prevented both page and hash navigation. Replaced internal Link components with native anchors throughout the homepage and shared navigation/footer. This static site does not need client-router interception. Also excluded Wrangler's generated preview files from ESLint.
 
 Browser verification after rebuilding: header “From the water” opens `/gallery`; header “The experiences” returns to `/#experiences` and scrolls to the activity section; brand returns to `/#top`. Build, typecheck, lint, and the six export tests pass. These navigation checks supersede the earlier statement that no browser navigation was inspected; video playback and responsive layout review remain separate.
+
+## Mobile logo fallback
+
+Replaced the JPEG luminance mask and hidden image with an ordinary transparent PNG. The former white pseudo-element could render as a solid box when the browser did not apply luminance masking. PNG transparency was verified (alpha spans 0..1); the supplied logo pixels define the transparency, without redrawing the artwork. A 390×844 Chrome preview shows the header logo correctly. This is a responsive preview, not a test on the owner's physical phone. Build, typecheck, lint, and six export tests pass.

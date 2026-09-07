@@ -70,7 +70,7 @@ References: [Pages build configuration](https://developers.cloudflare.com/pages/
 
 ## Brand artwork
 
-The main wordmark and illustrated fish/boat icon were supplied by the owner. Original JPEGs are preserved in `public/brand/`. The header and footer frame the wordmark with CSS; the icon appears in the booking panels and as the browser icon.
+The main wordmark and illustrated fish/boat icon were supplied by the owner. Original JPEGs are preserved in `public/brand/`. The header and footer use a transparent PNG derived from the wordmark, without browser-dependent CSS masking; the icon appears in the booking panels and as the browser icon.
 
 ## Content and media
 

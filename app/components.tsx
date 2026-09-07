@@ -5,9 +5,9 @@ import media from './media-manifest.json';
 
 export function Arrow() { return <span aria-hidden="true">↗</span>; }
 export function Brand() {
-  // Original supplied artwork; CSS frames its margins without altering the logo.
+  // Transparency is baked into the PNG so the logo works without CSS masking.
   // eslint-disable-next-line @next/next/no-img-element
-  return <a className="brand" href="/#top" aria-label="Bali Monster Spearfishing home"><img src="/brand/bali-monster-logo.jpg" width={1536} height={1024} alt="Bali Monster Spearfishing" /></a>;
+  return <a className="brand" href="/#top" aria-label="Bali Monster Spearfishing home"><img src="/brand/bali-monster-logo-transparent.png" width={1536} height={1024} alt="Bali Monster Spearfishing" /></a>;
 }
 export function Header({ gallery = false }: { gallery?: boolean }) {
   return <><a className="skip-link" href="#main">Skip to content</a><header className={`site-header${gallery ? ' gallery-header' : ''}`} id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="/#experiences">The experiences</a><a className="gallery-nav" href="/gallery" aria-current={gallery ? 'page' : undefined}>From the water</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header></>;
