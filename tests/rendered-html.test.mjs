@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/gallery': 'gallery.html' };
+  const pages = { '/': 'index.html', '/gallery': 'gallery.html', '/spearfishing-bali': 'spearfishing-bali.html', '/freediving-bali': 'freediving-bali.html', '/boat-charter-bali': 'boat-charter-bali.html', '/faq': 'faq.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -102,5 +102,87 @@ test('published media fits Pages limits and excludes original videos', async () 
   for (const file of files) {
     assert.match(file, /\.(jpg|mp4)$/);
     assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
+  }
+});
+
+const tripPages = { '/spearfishing-bali': 'spearfishing-bali.html', '/freediving-bali': 'freediving-bali.html', '/boat-charter-bali': 'boat-charter-bali.html', '/faq': 'faq.html' };
+const jsonLd = (html) => [...html.matchAll(/<script type="application\/ld\+json">([^<]*)<\/script>/g)].map(match => JSON.parse(match[1]));
+const types = (data) => [data['@type']].flat();
+
+test('every page carries the LocalBusiness structured data with the WhatsApp number', async () => {
+  for (const file of ['index.html', 'gallery.html', ...Object.values(tripPages)]) {
+    const business = jsonLd(await readOutput(file)).find(data => types(data).includes('LocalBusiness'));
+    assert.ok(business, file);
+    assert.equal(business.name, 'Bali Monster Spearfishing');
+    assert.equal(business.telephone, '+6282236954017');
+    assert.equal(business.url, 'https://balimonster.com');
+    assert.equal(business.contactPoint.url, 'https://wa.me/6282236954017');
+    assert.equal(business.address.addressCountry, 'ID');
+    assert.doesNotMatch(JSON.stringify(business), /aggregateRating|review/i, 'no ratings are claimed without real reviews');
+  }
+});
+
+test('homepage and trip pages expose their questions as FAQPage data', async () => {
+  for (const file of ['index.html', ...Object.values(tripPages)]) {
+    const html = await readOutput(file);
+    const faq = jsonLd(html).find(data => data['@type'] === 'FAQPage');
+    assert.ok(faq, file);
+    assert.ok(faq.mainEntity.length >= 4, file);
+    for (const item of faq.mainEntity) {
+      assert.equal(item['@type'], 'Question');
+      assert.ok(html.includes(`<summary>${item.name.replaceAll("'", '&#x27;').replaceAll('&', '&amp;')}`), `${file}: ${item.name} is visible on the page`);
+      assert.match(item.acceptedAnswer.text, /\S/);
+    }
+  }
+});
+
+test('trip pages answer their question in plain text and book to the right WhatsApp interest', async () => {
+  const expectations = {
+    '/spearfishing-bali': { title: 'Spearfishing in Bali', interest: 'spearfishing for dogtooth tuna', service: 'Guided spearfishing trip' },
+    '/freediving-bali': { title: 'Freediving in Bali', interest: 'freediving', service: 'Guided freediving trip' },
+    '/boat-charter-bali': { title: 'Boat Charters in Bali', interest: 'a boat charter', service: 'Private boat charter' },
+  };
+  for (const [route, expected] of Object.entries(expectations)) {
+    const html = await readOutput(tripPages[route]);
+    assert.match(html, new RegExp(`<title>${expected.title} \\| Bali Monster Spearfishing`));
+    assert.match(html, new RegExp(`rel="canonical" href="https://balimonster.com${route}"`));
+    assert.match(html, /Bali Monster Spearfishing (runs|offers) /, 'opens with a plain statement an assistant can quote');
+    assert.match(html, /Bali, Indonesia/);
+    const service = jsonLd(html).find(data => data['@type'] === 'Service');
+    assert.equal(service.serviceType, expected.service);
+    assert.equal(service.provider['@id'], 'https://balimonster.com/#business');
+    const links = [...html.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)].map(([, href]) => new URL(href.replaceAll('&amp;', '&').replaceAll('&#x27;', "'")));
+    assert.ok(links.length >= 3, route);
+    for (const link of links) {
+      assert.equal(link.pathname, '/6282236954017');
+      assert.match(link.searchParams.get('text'), /Preferred dates:/);
+    }
+    assert.ok(links.some(link => link.searchParams.get('text').includes(expected.interest)), expected.interest);
+    assert.doesNotMatch(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, ''), /\$\s?\d|USD|IDR|Rp\s?\d/, 'no prices are invented');
+  }
+  const faq = await readOutput('faq.html');
+  assert.match(faq, /rel="canonical" href="https:\/\/balimonster.com\/faq"/);
+  assert.ok([...faq.matchAll(/<details>/g)].length >= 8);
+});
+
+test('crawler files welcome AI assistants and list every page', async () => {
+  const robots = await readOutput('robots.txt');
+  for (const bot of ['Googlebot', 'Bingbot', 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'Perplexity-User', 'Applebot', 'Google-Extended']) {
+    assert.match(robots, new RegExp(`^User-agent: ${bot}$`, 'm'), bot);
+  }
+  assert.doesNotMatch(robots, /^Disallow:/m);
+  const llms = await readOutput('llms.txt');
+  assert.match(llms, /^# Bali Monster Spearfishing/);
+  assert.match(llms, /\+62 822-3695-4017/);
+  assert.match(llms, /https:\/\/wa\.me\/6282236954017/);
+  const sitemap = await readOutput('sitemap.xml');
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+  for (const route of ['/', '/gallery', ...Object.keys(tripPages)]) {
+    assert.ok(locs.includes(`https://balimonster.com${route}`), route);
+    assert.match(llms, new RegExp(`https://balimonster\\.com${route === '/' ? '/' : route}\\)`), `llms.txt links ${route}`);
+  }
+  for (const loc of locs) {
+    const path = new URL(loc).pathname;
+    await access(new URL(path === '/' ? 'index.html' : `.${path}.html`, output));
   }
 });
