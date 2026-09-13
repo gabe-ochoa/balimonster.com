@@ -2,7 +2,6 @@
 
 A homepage and trip gallery for **balimonster.com**. Spearfishing, freediving, and charters in Bali.
 All booking links open WhatsApp for **+62 822-3695-4017** with an activity-specific enquiry.
-Keep this number until the business owner confirms the replacement with their team (requested 2026-09-07).
 No messages are sent automatically. No database, authentication, payment flow, or backend credentials are required.
 
 ## Local preview
@@ -32,7 +31,10 @@ Run `npm start` after building to preview the static site with the local Pages s
 
 ## Editing
 
-- `app/site.ts`: business name, domain, phone, and WhatsApp message template.
+- `app/site.ts`: business name, domain, phone, service area, public profile links, and WhatsApp message template.
+- `app/faqs.ts`: the questions and answers shared by the homepage, `/faq`, and the trip pages.
+- `app/structured-data.tsx`: schema.org JSON-LD for the business, each trip service, and the FAQs.
+- `app/trip-page.tsx`: the shared layout for `/spearfishing-bali`, `/freediving-bali`, and `/boat-charter-bali`.
 - `app/page.tsx`: homepage content and section layout.
 - `app/gallery/page.tsx`: real trip photo and video gallery.
 - `app/components.tsx`: shared navigation, footer, and media rendering.
@@ -40,6 +42,31 @@ Run `npm start` after building to preview the static site with the local Pages s
 - `app/globals.css`: responsive styles and color tokens.
 - `app/layout.tsx`: fonts and metadata.
 - `public/`: locally served imagery, social card, sitemap, and robots file.
+
+## Search engines and AI assistants
+
+Assistants such as ChatGPT, Claude, Gemini, and Perplexity recommend a business from what their crawlers can read and from what other trusted sites say about it. The repository handles the first part:
+
+- `public/robots.txt` names every major search and AI crawler with an explicit allow.
+- `public/llms.txt` is a plain-text summary of the business for agents, with links to every page.
+- Every page carries `LocalBusiness` JSON-LD with the WhatsApp number. Trip pages add `Service` and `FAQPage` data. The homepage and `/faq` add `FAQPage` data.
+- `/spearfishing-bali`, `/freediving-bali`, `/boat-charter-bali`, and `/faq` each open with a plain statement of what the business offers, so an assistant has a sentence to quote.
+- No prices, ratings, certifications, or meeting points are stated anywhere until the owner supplies them. The tests fail if a price or an `aggregateRating` appears.
+
+```sh
+npm run check:ai-access
+```
+
+That fetches the live site as each crawler and fails if any of them receives a challenge page, a 403, or a page without the structured data. Run it after any Cloudflare change.
+
+Steps that live outside the repository, in the owner's accounts:
+
+1. Cloudflare dashboard, Security → Bots: turn off "Block AI bots" and any managed robots.txt. That setting overrides the committed robots file.
+2. Register the site in Bing Webmaster Tools and Google Search Console and submit `https://balimonster.com/sitemap.xml`. ChatGPT search reads Bing's index.
+3. Create the Google Business Profile, Bing Places, and TripAdvisor listings with the same name, number, and description as the site, then add their URLs to `profiles` in `app/site.ts` so they publish as `sameAs` links.
+4. Supply the facts the pages currently defer to WhatsApp: launch points, seasons, species, group sizes, inclusions, and a price range. Update `app/faqs.ts` and the trip pages when they are confirmed.
+
+`docs/ai-visibility-log.md` holds the monthly check: eight questions to ask each assistant, and where to record the answers.
 
 ## Cloudflare Pages setup
 

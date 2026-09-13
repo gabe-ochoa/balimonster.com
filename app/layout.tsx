@@ -3,6 +3,7 @@ import '@fontsource/barlow-condensed/latin-600.css';
 import '@fontsource/barlow-condensed/latin-700.css';
 import '@fontsource-variable/manrope';
 import { site } from './site';
+import { JsonLd, businessSchema } from './structured-data';
 import './globals.css';
 
 
@@ -16,5 +17,5 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'Bali Monster Spearfishing', description: site.description, images: [`${site.url}/media/two-catches-1280.jpg`] },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return <html lang="en"><body><JsonLd data={businessSchema()} />{children}</body></html>;
 }

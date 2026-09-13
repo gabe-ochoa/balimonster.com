@@ -9,11 +9,13 @@ export function Brand() {
   // eslint-disable-next-line @next/next/no-img-element
   return <a className="brand" href="/#top" aria-label="Bali Monster Spearfishing home"><img src="/brand/bali-monster-logo-transparent.png" width={1536} height={1024} alt="Bali Monster Spearfishing" /></a>;
 }
-export function Header({ gallery = false }: { gallery?: boolean }) {
-  return <><a className="skip-link" href="#main">Skip to content</a><header className={`site-header${gallery ? ' gallery-header' : ''}`} id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="/#experiences">The experiences</a><a className="gallery-nav" href="/gallery" aria-current={gallery ? 'page' : undefined}>From the water</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header></>;
+export function Header({ gallery = false, current }: { gallery?: boolean; current?: string }) {
+  // Trip pages share the gallery's dark header so the intro sits on the ocean ground.
+  const dark = gallery || Boolean(current);
+  return <><a className="skip-link" href="#main">Skip to content</a><header className={`site-header${dark ? ' gallery-header' : ''}`} id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="/#experiences">The experiences</a><a className="gallery-nav" href="/gallery" aria-current={gallery ? 'page' : undefined}>From the water</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header></>;
 }
 export function Footer() {
-  return <><footer className="site-footer"><div className="container footer-main"><Brand /><p>Spearfishing, freediving &amp; charters.<br />Bali, Indonesia.</p><a className="footer-gallery" href="/gallery">From the water <Arrow /></a><a href={bookingUrl()}>Let&apos;s get on the water <Arrow /></a></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Bali Monster Spearfishing</span><span>balimonster.com</span></div></footer><a className="mobile-booking" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a></>;
+  return <><footer className="site-footer"><div className="container footer-main"><Brand /><p>Spearfishing, freediving &amp; charters.<br />Bali, Indonesia.</p><nav className="footer-links" aria-label="Trips and information"><a href="/spearfishing-bali">Spearfishing in Bali</a><a href="/freediving-bali">Freediving in Bali</a><a href="/boat-charter-bali">Boat charters in Bali</a><a href="/faq">Questions &amp; answers</a><a className="footer-gallery" href="/gallery">From the water <Arrow /></a></nav><a href={bookingUrl()}>Let&apos;s get on the water <Arrow /></a></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Bali Monster Spearfishing</span><span>balimonster.com</span></div></footer><a className="mobile-booking" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a></>;
 }
 
 export function Photo({ id, className, priority = false, sizes = '(max-width: 700px) 100vw, 50vw' }: { id: string; className?: string; priority?: boolean; sizes?: string }) {
