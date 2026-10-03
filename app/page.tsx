@@ -1,31 +1,38 @@
 /* Static Pages navigation uses native links so page and hash navigation work without the client router. */
-import { Arrow, Header, Footer, Photo, Film, BrandIllustration } from './components';
-import { faqsFor } from './faqs';
-import { bookingUrl, site } from './site';
-import { JsonLd, faqSchema } from './structured-data';
+/* Option 1: a neutral Bali Monster front door with a popup that asks which side of the water you are here for.
+   The same two cards sit inline on the page, so the popup is a shortcut rather than a wall. */
+import { Arrow, Footer, Photo, Wordmark } from './components';
+import { bookingUrl } from './site';
+import { redirectToTrackScript, trackList } from './tracks';
 
-const experiences = [
-  { number: '01', title: 'Spearfishing', tag: 'THE HUNT', description: 'Get below the surface and into the hunt. Plan a Bali spearfishing trip with dogtooth tuna in your sights.', action: 'Plan a spearfishing trip', interest: 'spearfishing for dogtooth tuna', href: '/spearfishing-bali', more: 'About spearfishing in Bali' },
-  { number: '02', title: 'Freediving', tag: 'THE STILLNESS', description: 'One breath. A different world. Make time for the blue with a freediving trip in Bali.', action: 'Plan a freediving trip', interest: 'freediving', href: '/freediving-bali', more: 'About freediving in Bali' },
-  { number: '03', title: 'Charters', tag: 'THE OPEN WATER', description: "Take your day offshore. Tell us about your group and the trip you have in mind, and let's talk charters.", action: 'Enquire about a charter', interest: 'a boat charter', href: '/boat-charter-bali', more: 'About boat charters in Bali' },
-];
-const faqs = faqsFor('booking');
-export default function Home() {
+// Opens the chooser as a modal when the page loads, unless the visitor has already picked a side or came back to change it.
+const openChooserScript = `try{var d=document.getElementById('chooser');if(d&&d.showModal&&!/choose/.test(location.search+location.hash)&&!localStorage.getItem('bm-track'))d.showModal()}catch(e){}`;
+
+function Choice({ className }: { className: string }) {
+  return <div className={className}>{trackList.map(track => <a className={`choice choice-${track.id}`} href={track.path} key={track.id}><span className="choice-eyebrow">BALI MONSTER</span><span className="choice-title">{track.activity === 'Charters' ? 'Boat charters' : track.activity}</span><span className="choice-tagline">{track.tagline}</span><span className="choice-list">{track.list.join(' · ')}</span><span className="choice-go">{track.activity === 'Charters' ? 'Plan a boat day' : 'Into the blue'} <Arrow /></span></a>)}</div>;
+}
+
+export default function Landing() {
   return <>
-    <Header />
+    <script dangerouslySetInnerHTML={{ __html: redirectToTrackScript() }} />
+    <a className="skip-link" href="#main">Skip to content</a>
+    <header className="site-header landing-header" id="top"><div className="container header-inner"><Wordmark href="/?choose" /><nav aria-label="Main navigation">{trackList.map(track => <a href={track.path} key={track.id}>{track.activity === 'Charters' ? 'Boat charters' : track.activity}</a>)}<a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header>
     <main id="main">
-      <section className="hero" aria-labelledby="hero-title">
-        <Photo id="below-the-surface" className="hero-photo" priority sizes="100vw" /><div className="hero-shade" />
-        <div className="container hero-inner"><div className="hero-copy"><p className="eyebrow"><span className="status-dot" /> BALI, INDONESIA · BEYOND THE SURFACE</p><h1 id="hero-title">CHASE THE<br /><span>DEEP BLUE.</span></h1><p className="hero-description">Spearfishing. Freediving. Charters.<br />Get out on the water with Bali Monster Spearfishing.</p><a className="button button-lime" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a><p className="button-note">Real trips. Real blue. Your story next.</p></div><div className="hero-side-note" aria-hidden="true">LESS NOISE. MORE OCEAN.</div><div className="hero-bottom"><span>ONE ISLAND. A WHOLE OTHER WORLD.</span><a href="#experiences">Explore the experiences <span aria-hidden="true">↓</span></a></div></div>
+      <section className="hero landing-hero" aria-labelledby="hero-title">
+        <Photo id="coastal-run" className="hero-photo" priority sizes="100vw" /><div className="hero-shade" />
+        <div className="container hero-inner"><div className="hero-copy"><p className="eyebrow"><span className="status-dot" /> BALI, INDONESIA · BOATS, BLUE WATER, GOOD DAYS</p><h1 id="hero-title">ONE ISLAND.<br /><span>TWO WAYS OUT.</span></h1><p className="hero-description">Bali Monster runs two kinds of days on the water: spearfishing trips for the hunt, and boat charters for everyone else.<br />Pick your side and we&apos;ll show you the right trips.</p><a className="button button-lime" href="#choose-inline">Choose your day <span aria-hidden="true">↓</span></a></div></div>
       </section>
-      <div className="activity-strip" aria-hidden="true"><div className="container"><span>SPEARFISHING</span><i>✳︎</i><span>FREEDIVING</span><i>✳︎</i><span>CHARTERS</span><i>✳︎</i><span>BALI, INDONESIA</span></div></div>
-      <section className="experiences section-light" id="experiences" aria-labelledby="experiences-title"><div className="container"><div className="section-heading"><div><p className="eyebrow">01 / FIND YOUR ADVENTURE</p><h2 id="experiences-title">YOUR KIND<br />OF WILD.</h2></div><p>For the hunt. For the quiet.<br />For a day far from the everyday.<br />Find your reason to get out there.</p></div><div className="experience-grid">{experiences.map(experience => <article className="experience" key={experience.number}><div className="experience-top"><span>{experience.number}</span><span>{experience.tag}</span></div><h3>{experience.title}</h3><p>{experience.description}</p><a href={bookingUrl(experience.interest)}>{experience.action}<Arrow /></a><a className="experience-more" href={experience.href}>{experience.more}<Arrow /></a></article>)}</div></div></section>
-      <section className="hunt" id="the-hunt" aria-labelledby="hunt-title"><div className="container hunt-grid"><div className="hunt-image"><Photo id="blue-water-catch" /><div className="image-caption"><span>A MOMENT FROM THE WATER.</span><Arrow /></div></div><div className="hunt-copy"><p className="eyebrow">02 / THIS IS WHAT WE COME FOR</p><h2 id="hunt-title">BIG BLUE.<br />BIGGER<br /><span>AMBITION.</span></h2><p className="hunt-lead">Dogtooth tuna. The hunt that brings us back.</p><p>These are moments from our trips: time in the blue, the return to the boat, and the catches we remember. Come with a hunt in mind. Tell us your experience, your dates, and what you&apos;re chasing.</p><p className="conditions">Every trip starts with a conversation about experience and conditions. Catches are never guaranteed.</p><a className="text-link" href={bookingUrl('spearfishing for dogtooth tuna')}>Let&apos;s talk dogtooth <Arrow /></a></div></div></section>
-      <section className="trip-preview section-light" aria-labelledby="trip-preview-title"><div className="container"><div className="section-heading"><div><p className="eyebrow">FROM OUR TRIPS</p><h2 id="trip-preview-title">THIS IS<br />THE REAL THING.</h2></div><div className="preview-intro"><p>Faces from the boat. Moments from the blue.<br />A few of the days that bring us back.</p><a className="text-link" href="/gallery">See the photos &amp; films <Arrow /></a></div></div><div className="preview-grid">{['two-catches', 'between-dives', 'sunset-crew'].map((id, index) => <a className="preview-card" href="/gallery#photos" key={id}><Photo id={id} sizes="(max-width: 700px) 100vw, 33vw" /><span>{['The catches', 'The time in between', 'The way home'][index]} <Arrow /></span></a>)}</div><div className="home-film"><Film id="coastal-run" /><div><p className="eyebrow">A LITTLE FURTHER OUT</p><h2>TAKE THE<br />SCENIC ROUTE.</h2><p>A glimpse of the coastline from one of our boat days. Watch the clip, then picture your own day on the water.</p><a className="text-link" href={bookingUrl('a boat charter')}>Plan a boat day <Arrow /></a></div></div></div></section>
-      <section className="booking section-light" id="plan-your-trip" aria-labelledby="booking-title"><div className="container booking-grid"><div><p className="eyebrow">03 / MAKE IT HAPPEN</p><h2 id="booking-title">GOOD TRIPS<br />START HERE.</h2><p>No long forms. Just a conversation.</p></div><ol className="booking-steps"><li><span>01</span><div><h3>Tell us what you&apos;re into.</h3><p>Spearfishing, freediving, or a charter. Have something specific in mind? Let us know.</p></div></li><li><span>02</span><div><h3>Share a few details.</h3><p>Your dates, group size, and experience help us talk through the right trip for you.</p></div></li><li><span>03</span><div><h3>Plan it together.</h3><p>We&apos;ll discuss availability, pricing, meeting points, and what to bring on WhatsApp.</p></div></li></ol></div></section>
-      <section className="faq section-light" aria-labelledby="faq-title"><JsonLd data={faqSchema(faqs)} /><div className="container faq-grid"><div><p className="eyebrow">BEFORE YOU DIVE IN</p><h2 id="faq-title">A FEW<br />GOOD QUESTIONS.</h2><p className="trip-faq-more"><a className="text-link text-link-ink" href="/faq">All questions <Arrow /></a></p></div><div className="faq-list">{faqs.map(({ question, answer }) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
-      <section className="final-cta" aria-labelledby="cta-title"><div className="container"><p className="eyebrow">BALI IS CALLING.</p><h2 id="cta-title">SEE YOU<br />OUT THERE.</h2><a className="button button-dark" href={bookingUrl()}>Chat with us on WhatsApp <Arrow /></a><a className="contact-number" href={bookingUrl()}>{site.phoneDisplay}</a></div><BrandIllustration /></section>
+      <section className="landing-choose section-light" id="choose-inline" aria-labelledby="choose-title"><div className="container"><div className="section-heading"><div><p className="eyebrow">WHICH BRINGS YOU HERE?</p><h2 id="choose-title">PICK<br />YOUR SIDE.</h2></div><p>Same boats, same crew, same coastline.<br />Two very different days. We&apos;ll remember your pick.</p></div><Choice className="choice-grid" /></div></section>
     </main>
-    <Footer />
+    <Footer neutral />
+    <dialog className="chooser" id="chooser" aria-labelledby="chooser-title">
+      <form method="dialog" className="chooser-inner">
+        <p className="eyebrow">WELCOME TO BALI MONSTER</p>
+        <h2 id="chooser-title">WHAT BRINGS YOU<br />TO THE WATER?</h2>
+        <Choice className="chooser-grid" />
+        <button className="chooser-close" type="submit">Just looking around for now</button>
+      </form>
+    </dialog>
+    <script dangerouslySetInnerHTML={{ __html: openChooserScript }} />
   </>;
 }
