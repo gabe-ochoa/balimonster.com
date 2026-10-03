@@ -55,9 +55,8 @@ test('the front door offers both sides, remembers the pick, and lets a visitor c
   assert.match(html, /localStorage\.getItem\("bm-track"\)/, 'returning visitors are sent to their side');
   assert.match(html, /href="\/\?choose"/, 'the landing wordmark reopens the chooser instead of redirecting');
   for (const file of Object.values(trackPages)) assert.match(await readOutput(file), /localStorage\.setItem\("bm-track"/, file);
-  assert.match(html, /<dialog class="chooser"/, 'option 1 opens the choice as a popup');
-  assert.match(html, /showModal/);
-  assert.match(html, /Just looking around/);
+  assert.doesNotMatch(html, /<dialog|showModal/, 'option 2 has no popup: the page itself is the choice');
+  assert.equal([...html.matchAll(/class="split-panel/g)].length, 2);
 });
 
 test('exports a real 404 page so Pages does not fall back to the homepage', async () => {
