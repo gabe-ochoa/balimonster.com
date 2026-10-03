@@ -36,8 +36,8 @@ test('the charters side never leads with the hunt and books every charter activi
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/?"/);
   // Outside the two deliberate signposts (the door under the hero and the cross-link at the bottom),
   // the page must read as a boat-day site, not a spearfishing one.
-  const body = text(html.slice(0, html.indexOf('track-cross')).replace(/<aside class="hunt-door">[\s\S]*?<\/aside>/, ''));
-  assert.match(html, /<aside class="hunt-door">/);
+  const body = text(html.slice(0, html.indexOf('track-cross')).replace(/<aside class="hunt-door"[^>]*>[\s\S]*?<\/aside>/, ''));
+  assert.match(html, /<aside class="hunt-door"/);
   assert.doesNotMatch(body, /dogtooth|speargun|catch(es)?\b|the hunt/i, 'the charters side does not mention the hunt');
   const markup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
   assert.doesNotMatch(markup, /media\/(two-catches|blue-water-catch|catch-closeup|sunset-crew|boat-day|back-at-the-boat)/, 'no catch photos on the charters side');
