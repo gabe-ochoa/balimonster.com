@@ -373,38 +373,13 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .track-cross h2 {font-size:50px}
 }
 
-/* Landing page: neutral front door, inline choice cards, and the popup chooser. */
-.landing-header nav>a:not(.header-cta) {display:inline}
-.landing-hero .hero-photo {object-position:50% 70%}
-.landing-hero .hero-description {max-width:520px}
-.landing-choose {padding:100px 0}
-.choice-grid,.chooser-grid {display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.choice {display:flex;flex-direction:column;gap:10px;padding:34px 32px 30px;min-height:300px;border:1px solid var(--line);transition:transform .2s,box-shadow .2s}
-.choice:hover {transform:translateY(-3px);box-shadow:0 18px 40px -24px var(--shadow)}
-.choice-spearfishing {background:var(--ocean);color:var(--paper)}
-.choice-charters {background:var(--lime);color:var(--ocean)}
-.choice-eyebrow {font-size:9px;font-weight:700;letter-spacing:2px}
-.choice-title {font-family:var(--font-display),Impact,sans-serif;font-size:clamp(44px,4.4vw,62px);font-weight:700;line-height:.9;letter-spacing:-1px;text-transform:uppercase}
-.choice-tagline {font-size:15px;font-weight:600;margin-top:6px}
-.choice-list {font-size:12px;opacity:.78;line-height:1.7;max-width:340px}
-.choice-go {margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800}
-.choice-go>span {font-size:24px}
-.chooser {border:0;padding:0;width:min(920px,calc(100% - 40px));background:var(--paper);color:var(--ink);box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
-.chooser::backdrop {background:rgba(7,29,38,.78);backdrop-filter:blur(6px)}
-.chooser-inner {padding:44px 44px 36px;margin:0}
-.chooser h2 {font-size:clamp(48px,5.4vw,78px);margin-bottom:30px}
-.chooser .eyebrow {margin-bottom:18px}
-.chooser-grid .choice {min-height:260px;padding:28px 26px 24px}
-.chooser-close {display:block;margin:26px auto 0;background:none;border:0;border-bottom:1px solid var(--line);padding:6px 2px;font:inherit;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
-.chooser-close:hover {color:var(--ink);border-color:var(--ink)}
+/* The spearfishing door on the charters homepage: visible, but after the charters have had their say. */
+.hunt-door {background:var(--ocean-soft);border-bottom:1px solid var(--line-dark)}
+.hunt-door>.container {display:flex;align-items:center;justify-content:space-between;gap:40px;padding:30px 0}
+.hunt-door p {margin:0;font-size:13px;color:var(--water);max-width:560px;line-height:1.8}
+.hunt-door .eyebrow {display:block;margin-bottom:6px;color:var(--lime)}
+.hunt-door .button {flex-shrink:0;gap:22px}
 @media(max-width:700px) {
-  .landing-header nav>a:not(.header-cta) {display:none}
-  .landing-choose {padding:60px 0}
-  .choice-grid,.chooser-grid {grid-template-columns:1fr;gap:14px}
-  .choice {min-height:0;padding:26px 22px 22px}
-  .chooser {width:calc(100% - 24px);max-height:calc(100% - 24px);overflow:auto}
-  .chooser-inner {padding:28px 22px 22px}
-  .chooser h2 {font-size:46px;margin-bottom:22px}
-  .chooser-grid .choice {min-height:0;padding:22px 20px 18px}
-  .choice-title {font-size:40px}
+  .hunt-door>.container {display:block;padding:26px 0}
+  .hunt-door .button {margin-top:18px;width:100%}
 }

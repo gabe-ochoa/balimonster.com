@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Arrow, Header, Footer, Photo, Film, BrandIllustration, TrackCrossLink } from '../components';
 import { faqsFor } from '../faqs';
 import { bookingUrl, site } from '../site';
-import { rememberTrackScript, tracks } from '../tracks';
+import { tracks } from '../tracks';
 import { JsonLd, faqSchema } from '../structured-data';
 
 const experiences = [
@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 };
 export default function SpearfishingHome() {
   return <>
-    <script dangerouslySetInnerHTML={{ __html: rememberTrackScript(track.id) }} />
     <Header track={track.id} />
     <main id="main">
       <section className="hero" aria-labelledby="hero-title">

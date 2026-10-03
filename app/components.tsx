@@ -13,7 +13,7 @@ export function Brand() {
 // Text wordmark: the brand first, the activity after. Used wherever the spearfishing logo would mislabel a page.
 export function Wordmark({ track, href }: { track?: TrackId; href?: string }) {
   const activity = track ? tracks[track].activity : undefined;
-  return <a className="wordmark" href={href ?? (track ? tracks[track].path : '/?choose')} aria-label={`${track ? tracks[track].name : 'Bali Monster'} home`}><b>Bali Monster</b>{activity && <small>{activity}</small>}</a>;
+  return <a className="wordmark" href={href ?? (track ? tracks[track].path : '/')} aria-label={`${track ? tracks[track].name : 'Bali Monster'} home`}><b>Bali Monster</b>{activity && <small>{activity}</small>}</a>;
 }
 // Segmented switch between the two sides of the site. The current side is marked, the other is one tap away.
 export function TrackToggle({ track }: { track?: TrackId }) {

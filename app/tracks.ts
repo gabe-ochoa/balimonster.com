@@ -30,7 +30,7 @@ export const tracks: Record<TrackId, Track> = {
   },
   charters: {
     id: 'charters',
-    path: '/charters',
+    path: '/',
     activity: 'Charters',
     name: 'Bali Monster Charters',
     tagline: 'For the day out.',
@@ -43,11 +43,3 @@ export const tracks: Record<TrackId, Track> = {
 };
 
 export const trackList = [tracks.spearfishing, tracks.charters];
-
-// Key used in localStorage to remember which side a visitor picked.
-export const trackStorageKey = 'bm-track';
-
-// Script fragments rendered inline so the choice works on the static export without a client bundle.
-// `?choose` (or #choose) on the landing page skips the redirect so a visitor can change their pick.
-export const rememberTrackScript = (id: TrackId) => `try{localStorage.setItem(${JSON.stringify(trackStorageKey)},${JSON.stringify(id)})}catch(e){}`;
-export const redirectToTrackScript = () => `try{var t=localStorage.getItem(${JSON.stringify(trackStorageKey)});if(!/choose/.test(location.search+location.hash)){if(t==='charters')location.replace(${JSON.stringify(tracks.charters.path)});else if(t==='spearfishing')location.replace(${JSON.stringify(tracks.spearfishing.path)})}}catch(e){}`;

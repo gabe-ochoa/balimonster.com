@@ -5,7 +5,7 @@ import { access, readFile, readdir, stat } from 'node:fs/promises';
 const output = new URL('../dist/client/', import.meta.url);
 const readOutput = (path) => readFile(new URL(path, output), 'utf8');
 
-const trackPages = { spearfishing: 'spearfishing.html', charters: 'charters.html' };
+const trackPages = { spearfishing: 'spearfishing.html', charters: 'index.html' };
 const text = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
 
 test('the spearfishing side serves the complete page and sends all enquiries to the correct WhatsApp recipient', async () => {
@@ -32,10 +32,12 @@ test('the spearfishing side serves the complete page and sends all enquiries to 
 
 test('the charters side never leads with the hunt and books every charter activity', async () => {
   const html = await readOutput(trackPages.charters);
-  assert.match(html, /<title>Bali Monster Charters/);
-  assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/charters"/);
-  // Everything above the deliberate cross-link at the bottom must read as a boat-day site, not a spearfishing one.
-  const body = text(html.slice(0, html.indexOf('track-cross')));
+  assert.match(html, /<title>Bali Monster \| Boat Charters/);
+  assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/?"/);
+  // Outside the two deliberate signposts (the door under the hero and the cross-link at the bottom),
+  // the page must read as a boat-day site, not a spearfishing one.
+  const body = text(html.slice(0, html.indexOf('track-cross')).replace(/<aside class="hunt-door">[\s\S]*?<\/aside>/, ''));
+  assert.match(html, /<aside class="hunt-door">/);
   assert.doesNotMatch(body, /dogtooth|speargun|catch(es)?\b|the hunt/i, 'the charters side does not mention the hunt');
   const markup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
   assert.doesNotMatch(markup, /media\/(two-catches|blue-water-catch|catch-closeup|sunset-crew|boat-day|back-at-the-boat)/, 'no catch photos on the charters side');
@@ -48,16 +50,13 @@ test('the charters side never leads with the hunt and books every charter activi
   }
 });
 
-test('the front door offers both sides, remembers the pick, and lets a visitor change it', async () => {
+test('the front door is the charters side with spearfishing one tap away', async () => {
   const html = await readOutput('index.html');
-  assert.match(html, /href="\/spearfishing"/);
-  assert.match(html, /href="\/charters"/);
-  assert.match(html, /localStorage\.getItem\("bm-track"\)/, 'returning visitors are sent to their side');
-  assert.match(html, /href="\/\?choose"/, 'the landing wordmark reopens the chooser instead of redirecting');
-  for (const file of Object.values(trackPages)) assert.match(await readOutput(file), /localStorage\.setItem\("bm-track"/, file);
-  assert.match(html, /<dialog class="chooser"/, 'option 1 opens the choice as a popup');
-  assert.match(html, /showModal/);
-  assert.match(html, /Just looking around/);
+  assert.match(html, /class="track-toggle"[^>]*><a href="\/spearfishing">Spearfishing<\/a><a href="\/" aria-current="page">Boat charters<\/a>/, 'the header toggle marks charters and offers spearfishing');
+  assert.match(html, /class="hunt-door"/, 'option 3 signposts the hunt under the hero instead of asking first');
+  assert.doesNotMatch(html, /bm-track|<dialog/, 'no popup and no remembered pick: the toggle is the switch');
+  const spearfishing = await readOutput('spearfishing.html');
+  assert.match(spearfishing, /class="track-toggle"[^>]*><a href="\/spearfishing" aria-current="page">Spearfishing<\/a><a href="\/">Boat charters<\/a>/);
 });
 
 test('exports a real 404 page so Pages does not fall back to the homepage', async () => {
@@ -67,7 +66,7 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', 'spearfishing.html', 'charters.html', 'gallery.html', '404.html']) {
+  for (const file of ['index.html', 'spearfishing.html', 'gallery.html', '404.html']) {
     const html = await readOutput(file);
     const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
     assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
@@ -115,7 +114,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/spearfishing': 'spearfishing.html', '/charters': 'charters.html', '/gallery': 'gallery.html', '/spearfishing-bali': 'spearfishing-bali.html', '/freediving-bali': 'freediving-bali.html', '/boat-charter-bali': 'boat-charter-bali.html', '/faq': 'faq.html' };
+  const pages = { '/': 'index.html', '/spearfishing': 'spearfishing.html', '/gallery': 'gallery.html', '/spearfishing-bali': 'spearfishing-bali.html', '/freediving-bali': 'freediving-bali.html', '/boat-charter-bali': 'boat-charter-bali.html', '/faq': 'faq.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -143,7 +142,7 @@ const jsonLd = (html) => [...html.matchAll(/<script type="application\/ld\+json"
 const types = (data) => [data['@type']].flat();
 
 test('every page carries the LocalBusiness structured data with the WhatsApp number', async () => {
-  for (const file of ['index.html', ...Object.values(trackPages), 'gallery.html', ...Object.values(tripPages)]) {
+  for (const file of [...Object.values(trackPages), 'gallery.html', ...Object.values(tripPages)]) {
     const business = jsonLd(await readOutput(file)).find(data => types(data).includes('LocalBusiness'));
     assert.ok(business, file);
     assert.equal(business.name, 'Bali Monster Spearfishing');

@@ -7,7 +7,7 @@ Bali Monster Spearfishing is a small operator based in Bali. There is no online 
 ## Two sides of the site
 
 - [Bali Monster Spearfishing](https://balimonster.com/spearfishing): The hunting side. Spearfishing and freediving trips, with dogtooth tuna as the signature target.
-- [Bali Monster Charters](https://balimonster.com/charters): The boat-day side. Snorkeling, sunset cruises, island camping, sportfishing, and island transfers for groups, couples, and families.
+- [Bali Monster Charters](https://balimonster.com/): The homepage and the boat-day side. Snorkeling, sunset cruises, island camping, sportfishing, and island transfers for groups, couples, and families.
 
 ## Trips
 
@@ -19,7 +19,7 @@ Bali Monster Spearfishing is a small operator based in Bali. There is no online 
 
 - [Questions and answers](https://balimonster.com/faq): Booking, experience, pricing, locations, legality, and what to expect.
 - [Photos and films](https://balimonster.com/gallery): Real photos and video from past trips. No stock imagery.
-- [Homepage](https://balimonster.com/): Overview of the three trip types and how booking works.
+- [Homepage](https://balimonster.com/): The charters side: snorkeling, sunset cruises, island camping, sportfishing, island transfers, and how booking works.
 
 ## Facts
 
