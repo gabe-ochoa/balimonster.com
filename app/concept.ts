@@ -1,1 +1,1 @@
-export const concept: 'popup' | 'split' | 'activity' = 'popup';
+export const concept: 'popup' | 'split' | 'activity' = 'split';
