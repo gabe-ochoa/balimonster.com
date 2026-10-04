@@ -409,3 +409,10 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .split-list {margin-bottom:22px}
   .split-note {text-align:left;padding-top:22px}
 }
+
+/* Charter trip cards carry a photo above the copy. */
+.experience-photo {display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:24px}
+.experience-with-photo .experience-top {margin-bottom:22px}
+@media(max-width:700px) {
+  .experience-photo {margin-bottom:18px}
+}
