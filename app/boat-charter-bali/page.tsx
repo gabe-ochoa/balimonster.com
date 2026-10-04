@@ -28,4 +28,4 @@ const page: TripPage = {
 };
 
 export const metadata = tripMetadata(page);
-export default function BoatCharterBali() { return <TripPageView page={page} />; }
+export default function BoatCharterBali() { return <TripPageView page={page} track="charters" />; }
