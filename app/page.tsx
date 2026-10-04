@@ -1,8 +1,9 @@
 /* Static Pages navigation uses native links so page and hash navigation work without the client router. */
 /* Option 1: a neutral Bali Monster front door with a popup that asks which side of the water you are here for.
    The same two cards sit inline on the page, so the popup is a shortcut rather than a wall. */
+import type { Metadata } from 'next';
 import { Arrow, Footer, Photo, Wordmark } from './components';
-import { bookingUrl } from './site';
+import { bookingUrl, site } from './site';
 import { redirectToTrackScript, trackList } from './tracks';
 
 // Opens the chooser as a modal when the page loads, unless the visitor has already picked a side or came back to change it.
@@ -11,6 +12,17 @@ const openChooserScript = `try{var d=document.getElementById('chooser');if(d&&d.
 function Choice({ className }: { className: string }) {
   return <div className={className}>{trackList.map(track => <a className={`choice choice-${track.id}`} href={track.path} key={track.id}><span className="choice-eyebrow">BALI MONSTER</span><span className="choice-title">{track.activity === 'Charters' ? 'Boat charters' : track.activity}</span><span className="choice-tagline">{track.tagline}</span><span className="choice-list">{track.list.join(' · ')}</span><span className="choice-go">{track.activity === 'Charters' ? 'Plan a boat day' : 'Into the blue'} <Arrow /></span></a>)}</div>;
 }
+
+// The front door is brand-only, so it does not inherit the spearfishing title from the layout.
+const title = 'Bali Monster | Spearfishing Trips & Boat Charters in Bali';
+const description = 'Bali Monster runs two kinds of days on the water in Bali: spearfishing and freediving trips for the hunt, and private boat charters for snorkeling, sunset cruises, island camping, sportfishing, and island transfers. Pick your side and plan it on WhatsApp.';
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: site.url },
+  openGraph: { type: 'website', url: site.url, title, description, images: [{ url: `${site.url}/media/coastal-run-1280.jpg`, width: 1280, height: 720, alt: 'A boat crosses blue water beside a coastal rock arch.' }] },
+  twitter: { card: 'summary_large_image', title, description, images: [`${site.url}/media/coastal-run-1280.jpg`] },
+};
 
 export default function Landing() {
   return <>

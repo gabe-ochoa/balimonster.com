@@ -50,6 +50,7 @@ test('the charters side never leads with the hunt and books every charter activi
 
 test('the front door offers both sides, remembers the pick, and lets a visitor change it', async () => {
   const html = await readOutput('index.html');
+  assert.match(html, /<title>Bali Monster \| Spearfishing Trips &amp; Boat Charters/, 'the front door has a neutral title');
   assert.match(html, /href="\/spearfishing"/);
   assert.match(html, /href="\/charters"/);
   assert.match(html, /localStorage\.getItem\("bm-track"\)/, 'returning visitors are sent to their side');
