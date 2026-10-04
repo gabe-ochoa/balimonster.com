@@ -1,9 +1,21 @@
 /* Static Pages navigation uses native links so page and hash navigation work without the client router. */
 /* Option 2: no popup. The homepage is the choice. Two full-height panels, one per side, and nothing else
    competes with them. Hovering a panel widens it; on a phone they stack. */
+import type { Metadata } from 'next';
 import { Arrow, Footer, Photo, Wordmark } from './components';
-import { bookingUrl } from './site';
+import { bookingUrl, site } from './site';
 import { redirectToTrackScript, trackList } from './tracks';
+
+// The front door is brand-only, so it does not inherit the spearfishing title from the layout.
+const title = 'Bali Monster | Spearfishing Trips & Boat Charters in Bali';
+const description = 'Bali Monster runs two kinds of days on the water in Bali: spearfishing and freediving trips for the hunt, and private boat charters for snorkeling, sunset cruises, island camping, sportfishing, and island transfers. Pick your side and plan it on WhatsApp.';
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: site.url },
+  openGraph: { type: 'website', url: site.url, title, description, images: [{ url: `${site.url}/media/coastal-run-1280.jpg`, width: 1280, height: 720, alt: 'A boat crosses blue water beside a coastal rock arch.' }] },
+  twitter: { card: 'summary_large_image', title, description, images: [`${site.url}/media/coastal-run-1280.jpg`] },
+};
 
 export default function Landing() {
   return <>
