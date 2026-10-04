@@ -4,6 +4,7 @@ import { Arrow, Header, Footer, Photo, BrandIllustration } from './components';
 import { faqsFor, type Faq } from './faqs';
 import { bookingUrl, site } from './site';
 import { JsonLd, faqSchema, serviceSchema } from './structured-data';
+import type { TrackId } from './tracks';
 
 export type TripPage = {
   path: string;
@@ -35,10 +36,10 @@ export function tripMetadata(page: TripPage): Metadata {
   };
 }
 
-export function TripPageView({ page }: { page: TripPage }) {
+export function TripPageView({ page, track }: { page: TripPage; track?: TrackId }) {
   const faqs = faqsFor(page.topic);
   return <>
-    <Header current={page.path} />
+    <Header current={page.path} track={track} />
     <main id="main">
       <JsonLd data={serviceSchema({ path: page.path, name: page.title, description: page.description, serviceType: page.serviceType })} />
       <JsonLd data={faqSchema(faqs)} />
@@ -80,6 +81,6 @@ export function TripPageView({ page }: { page: TripPage }) {
         <BrandIllustration />
       </section>
     </main>
-    <Footer />
+    <Footer track={track} />
   </>;
 }
