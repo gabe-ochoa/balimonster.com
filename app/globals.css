@@ -408,3 +408,10 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .chooser-grid .choice {min-height:0;padding:22px 20px 18px}
   .choice-title {font-size:40px}
 }
+
+/* Charter trip cards carry a photo above the copy. */
+.experience-photo {display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:24px}
+.experience-with-photo .experience-top {margin-bottom:22px}
+@media(max-width:700px) {
+  .experience-photo {margin-bottom:18px}
+}
