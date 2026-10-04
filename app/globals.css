@@ -334,3 +334,85 @@ video:focus-visible {outline:3px solid var(--lime);outline-offset:5px}
   .faq-page {padding-top:56px}
   .footer-links {flex-direction:column;gap:10px}
 }
+
+/* Two sides of one brand: the wordmark, the side switch, and the cross-link. */
+.wordmark {display:flex;flex-direction:column;align-items:flex-start;line-height:1;font-family:var(--font-display),'Arial Narrow',Impact,sans-serif;text-transform:uppercase;flex-shrink:0}
+.wordmark>b {font-size:30px;font-weight:700;letter-spacing:.4px}
+.wordmark>small {font-size:11px;letter-spacing:4.5px;font-weight:600;color:var(--lime);margin-top:5px;padding-left:2px}
+.section-light .wordmark>small {color:var(--ink)}
+.site-header nav.track-toggle,.track-toggle {display:inline-flex;border:1px solid var(--line-dark);padding:3px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.track-toggle a {padding:8px 16px;transition:background .2s,color .2s}
+.track-toggle a:hover {color:var(--lime)}
+.track-toggle a[aria-current=page] {background:var(--lime);color:var(--ocean)}
+.track-toggle a[aria-current=page]:hover {color:var(--ocean)}
+.track-header .header-inner {gap:24px}
+.track-cross {padding:80px 0;border-top:1px solid var(--line-dark)}
+.track-cross h2 {font-size:clamp(48px,5vw,72px)}
+.track-cross p:not(.eyebrow) {color:var(--water);font-size:14px;max-width:460px;margin-bottom:26px}
+.hero-charters .hero-photo {object-position:50% 70%}
+.experience-grid-six {grid-template-columns:repeat(3,1fr);row-gap:40px}
+.experience-grid-six .experience:nth-child(4) {border-left:0;padding-left:0}
+.experience-grid-six .experience:nth-child(n+4) {border-top:1px solid var(--line)}
+.experience-footnote {margin:50px 0 0}
+.home-film-charters {border-top:0;margin-top:0;padding-top:0}
+@media(max-width:1000px) {
+  .wordmark>b {font-size:26px}
+  .site-header nav.track-toggle {font-size:10px}
+  .track-toggle a {padding:7px 11px}
+}
+@media(max-width:700px) {
+  .wordmark>b {font-size:22px}
+  .wordmark>small {font-size:9px;letter-spacing:3px}
+  .track-header .header-inner {gap:12px}
+  .track-header nav[aria-label='Main navigation'] {display:none}
+  .site-header nav.track-toggle {margin-left:auto;font-size:9px;letter-spacing:.6px}
+  .site-header nav.track-toggle>a:not(.header-cta) {display:block;padding:7px 9px}
+  .experience-grid-six {grid-template-columns:1fr;row-gap:0}
+  .experience-grid-six .experience:nth-child(n+4) {border-top:0}
+  .track-cross {padding:55px 0}
+  .track-cross h2 {font-size:50px}
+}
+
+/* Landing page: the split-screen choice. */
+.split-header {position:absolute;z-index:3;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 40px}
+.split-header .header-cta {border-color:rgba(244,242,233,.5)}
+.split-title {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.split {display:flex;min-height:100svh;background:var(--ocean)}
+.split-panel {position:relative;flex:1;display:flex;align-items:flex-end;min-height:100svh;overflow:hidden;color:var(--paper);transition:flex .45s cubic-bezier(.2,.7,.2,1)}
+.split-panel:hover,.split-panel:focus-visible {flex:1.45}
+.split-panel:focus-visible {outline:4px solid var(--lime);outline-offset:-4px}
+.split-photo {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.split-spearfishing .split-photo {object-position:50% 45%}
+.split-charters .split-photo {object-position:50% 65%}
+.split-panel:hover .split-photo {transform:scale(1.04)}
+.split-shade {position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,29,38,.92) 0%,rgba(7,29,38,.45) 45%,rgba(7,29,38,.25) 100%)}
+.split-charters .split-shade {background:linear-gradient(0deg,rgba(7,29,38,.9) 0%,rgba(7,29,38,.35) 45%,rgba(7,29,38,.15) 100%)}
+.split-panel+.split-panel {border-left:1px solid rgba(244,242,233,.25)}
+.split-copy {position:relative;z-index:1;padding:0 48px 56px;max-width:560px}
+.split-copy .eyebrow {margin-bottom:18px;color:var(--lime)}
+.split-copy h2 {font-size:clamp(64px,7vw,118px);margin-bottom:18px}
+.split-charters .split-copy h2 {color:var(--lime)}
+.split-tagline {font-size:16px;font-weight:600;margin-bottom:12px}
+.split-list {list-style:none;margin:0 0 30px;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--water)}
+.split-list li+li::before {content:'·';margin-right:16px;color:var(--lime)}
+.split-go {display:inline-flex;align-items:center;gap:24px;background:var(--lime);color:var(--ocean);padding:15px 22px;font-size:12px;font-weight:800;transition:background .2s}
+.split-go>span {font-size:22px}
+.split-panel:hover .split-go {background:var(--lime-hover)}
+.split-note {font-size:12px;color:var(--water);padding:28px 0 8px;margin:0 auto;text-align:center}
+@media(max-width:700px) {
+  .split-header {padding:18px 20px}
+  .split {flex-direction:column;min-height:0}
+  .split-panel,.split-panel:hover {flex:none;min-height:min(78svh,620px)}
+  .split-panel+.split-panel {border-left:0;border-top:1px solid rgba(244,242,233,.25)}
+  .split-copy {padding:0 20px 34px}
+  .split-copy h2 {font-size:62px}
+  .split-list {margin-bottom:22px}
+  .split-note {text-align:left;padding-top:22px}
+}
+
+/* Charter trip cards carry a photo above the copy. */
+.experience-photo {display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:24px}
+.experience-with-photo .experience-top {margin-bottom:22px}
+@media(max-width:700px) {
+  .experience-photo {margin-bottom:18px}
+}

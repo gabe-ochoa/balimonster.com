@@ -43,6 +43,10 @@ Run `npm start` after building to preview the static site with the local Pages s
 - `app/layout.tsx`: fonts and metadata.
 - `public/`: locally served imagery, social card, sitemap, and robots file.
 
+## Stock placeholders on the charters side
+
+The charters pages use six stock photos (`public/media/stock-*.jpg`, flagged `"stock": true` in `app/media-manifest.json` with their source URL) until real snorkeling, sunset, camping, sportfishing, and transfer photos exist. They are Unsplash and Pexels images under those sites' free licences. They never appear in the real-trip gallery. To replace one, drop the new 640 and 1280 wide JPEGs over the same filenames, update the alt text, and remove the `stock` and `source` fields.
+
 ## Search engines and AI assistants
 
 Assistants such as ChatGPT, Claude, Gemini, and Perplexity recommend a business from what their crawlers can read and from what other trusted sites say about it. The repository handles the first part:

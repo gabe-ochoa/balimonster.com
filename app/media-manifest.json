@@ -89,6 +89,66 @@
       "caption": "A little time in the blue.",
       "width": 1280,
       "height": 960
+    },
+    {
+      "id": "stock-snorkeling",
+      "stock": true,
+      "source": "https://www.pexels.com/photo/2404370/",
+      "alt": "A snorkeler floats over a reef in clear blue water, surrounded by small fish.",
+      "title": "Snorkeling",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "stock-sunset",
+      "stock": true,
+      "source": "https://unsplash.com/photos/1515404929826-76fff9fef6fe",
+      "alt": "Wooden boats rest on a beach as the sun sets behind palm trees.",
+      "title": "Sunset cruise",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "stock-camping",
+      "stock": true,
+      "source": "https://unsplash.com/photos/1478131143081-80f7f84ca84d",
+      "alt": "Friends sit around a campfire beneath trees at dusk.",
+      "title": "Island camping",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "stock-sportfishing",
+      "stock": true,
+      "source": "https://unsplash.com/photos/1476514525535-07fb3b4ae5f1",
+      "alt": "The bow of a wooden boat heads out across calm water.",
+      "title": "Sportfishing",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "stock-transfer",
+      "stock": true,
+      "source": "https://unsplash.com/photos/1552465011-b4e21bf6e79a",
+      "alt": "Longtail boats wait in turquoise shallows beneath a limestone cliff.",
+      "title": "Island transfers",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 886
+    },
+    {
+      "id": "stock-bay",
+      "stock": true,
+      "source": "https://unsplash.com/photos/1518509562904-e7ef99cdcc86",
+      "alt": "An aerial view of a turquoise bay ringed by rocky headlands.",
+      "title": "Your own day",
+      "caption": "Stock placeholder.",
+      "width": 1280,
+      "height": 960
     }
   ],
   "videos": [
@@ -120,7 +180,7 @@
       "id": "heading-home",
       "original": "GX010216.mov",
       "title": "Heading home",
-      "description": "A sunset boat ride, with the day\u2019s catches on deck and the wake stretching behind.",
+      "description": "A sunset boat ride, with the day’s catches on deck and the wake stretching behind.",
       "start": 0,
       "duration": 25,
       "posterTime": 2,
