@@ -42,6 +42,8 @@ test('the charters side never leads with the hunt and books every charter activi
   const markup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
   assert.doesNotMatch(markup, /media\/(two-catches|blue-water-catch|catch-closeup|sunset-crew|boat-day|back-at-the-boat)/, 'no catch photos on the charters side');
   for (const word of ['Snorkeling', 'Sunset cruise', 'Island camping', 'Sportfishing', 'Island transfers']) assert.match(body, new RegExp(word), word);
+  for (const id of ['stock-snorkeling', 'stock-sunset', 'stock-camping', 'stock-sportfishing', 'stock-transfer']) assert.match(markup, new RegExp(`media/${id}-1280.jpg`), id);
+  assert.doesNotMatch(await readOutput('gallery.html'), /media\/stock-/, 'stock placeholders stay out of the real-trip gallery');
   const links = [...html.matchAll(/<a\b[^>]*href="(https:\/\/wa\.me\/[^"]+)"/g)].map(match => new URL(match[1].replaceAll('&amp;', '&').replaceAll('&#x27;', "'")));
   assert.ok(links.length >= 8);
   for (const link of links) assert.equal(link.pathname, '/6282236954017');
