@@ -1,0 +1,2 @@
+# Requirements
+Three separate Git branches and shareable review previews. Neutral homepage and charter imagery, including social previews. Dedicated /charters and /spearfishing routes. All five charter activities have specific enquiry links. Preserve the existing WhatsApp recipient. Responsive desktop and mobile. Native links work without JavaScript. Popup supports keyboard dismissal, focus containment, reopening, and a visible underlying alternative. No invented prices or inclusions. No production merge or release.

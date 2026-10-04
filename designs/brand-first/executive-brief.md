@@ -1,0 +1,2 @@
+# Review three entrances
+The concern is that prominent spearfishing imagery discourages snorkelers. Compare a welcome popup, two direct choices, and an activity-led landing. All use the same charter and spearfishing pages so the review isolates the entrance. Recommendation pending review: activity-led provides the least friction for charter visitors. Conversion improvement is a hypothesis, not measured.

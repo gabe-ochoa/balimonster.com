@@ -6,8 +6,8 @@ const output = new URL('../dist/client/', import.meta.url);
 const readOutput = (path) => readFile(new URL(path, output), 'utf8');
 
 test('serves the complete page and sends all enquiries to the correct WhatsApp recipient', async () => {
-  const html = await readOutput('index.html');
-  assert.match(html, /<title>Bali Monster Spearfishing/);
+  const html = await readOutput('spearfishing.html');
+  assert.match(html, /<title>Bali Monster/);
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com/);
   assert.match(html, /CHASE THE/);
   assert.match(html, /Dogtooth tuna/);
@@ -34,7 +34,7 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', 'gallery.html', '404.html']) {
+  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', '404.html']) {
     const html = await readOutput(file);
     const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
     assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/gallery': 'gallery.html' };
+  const pages = { '/': 'index.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -103,4 +103,19 @@ test('published media fits Pages limits and excludes original videos', async () 
     assert.match(file, /\.(jpg|mp4)$/);
     assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
   }
+});
+
+
+test('neutral landing and charters keep catches out of the browsing path', async () => {
+  for (const file of ['index.html', 'charters.html']) {
+    const html = await readOutput(file);
+    assert.match(html, /BALI MONSTER/);
+    assert.doesNotMatch(html, /(?:src|poster|content)="[^" ]*(?:two-catches|catch-closeup|blue-water-catch|sunset-crew|boat-day|sunset-return|heading-home)/);
+    for (const activity of ['Snorkeling', 'Sunsets', 'Camping', 'Sportfishing', 'Island transfer']) assert.ok(html.includes(activity), activity);
+    assert.match(html, /href="\/spearfishing"/);
+    assert.match(html, /href="\/charters/);
+  }
+  const charter = await readOutput('charters.html');
+  for (const id of ['snorkeling', 'sunsets', 'camping', 'sportfishing', 'island-transfer']) assert.ok(charter.includes(`id="${id}"`));
+  for (const [, href] of charter.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)) assert.equal(new URL(href.replaceAll('&amp;', '&')).pathname, '/15127679350');
 });

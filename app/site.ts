@@ -1,9 +1,9 @@
 export const site = {
-  name: 'Bali Monster Spearfishing',
+  name: 'Bali Monster',
   url: 'https://balimonster.com',
   phone: '15127679350',
   phoneDisplay: '+1 512 767 9350',
-  description: 'Spearfishing, freediving, and charters in Bali. Plan your dogtooth tuna spearfishing adventure with Bali Monster Spearfishing on WhatsApp.',
+  description: 'Discover Bali with Bali Monster. Snorkeling, sunsets, camping, sportfishing, island transfers, and spearfishing. Choose your ocean adventure.',
 };
 
 export function bookingUrl(interest = 'a trip in Bali') {

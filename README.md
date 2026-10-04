@@ -93,3 +93,20 @@ npm test
 The script reads originals without changing them, removes source metadata, and exports only the selected files. The silent excerpts do not include source audio. Review provenance and alt text when changing a source selection.
 
 Booking format: [WhatsApp click to chat documentation](https://faq.whatsapp.com/5913398998672934).
+
+## Brand-first review concepts (October 2026)
+
+Three branches compare the entrance to the same two activity journeys:
+
+| Branch | Entrance |
+| --- | --- |
+| `concept/welcome-popup` | Native welcome dialog with boat charter and spearfishing choices |
+| `concept/two-ways` | Two direct image cards, without an overlay |
+| `concept/boat-days` | Boat-day hero and activity cards, with a smaller spearfishing link |
+
+`app/concept.ts` selects the branch design. `/charters` covers snorkeling, sunsets,
+camping, sportfishing, and island transfers. `/spearfishing` retains the original
+trip content. Neutral pages and their social previews avoid catch photography.
+The popup intentionally opens on each homepage visit for reviewers. Closing it
+reveals the full landing page; destination links also work without JavaScript.
+See `designs/brand-first/` for the design comparison and review criteria.

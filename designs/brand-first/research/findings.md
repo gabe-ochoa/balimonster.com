@@ -1,0 +1,2 @@
+# Findings
+2026-10-03. The original homepage leads with spearfishing and catch photos (app/spearfishing/page.tsx, copied from main). The old social card used two-catches (app/layout.tsx). Public media includes neutral coastal-run and at-the-surface photos (app/media-manifest.json). Most other boat photos show catches. The owner requests a Bali Monster parent brand and separate activity journeys. Conversion impact is unknown and requires customer review.
