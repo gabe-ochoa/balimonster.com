@@ -89,6 +89,42 @@
       "caption": "A little time in the blue.",
       "width": 1280,
       "height": 960
+    },
+    {
+      "id": "putu-ari",
+      "original": "DSC00617.jpg",
+      "alt": "Putu Ari, founder and captain of Bali Monster, smiling on the boat.",
+      "title": "Putu Ari",
+      "caption": "Putu Ari, founder and captain of Bali Monster, smiling on the boat.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "penida-spearfishing",
+      "original": "DSC00785.jpg",
+      "alt": "Two spearfishers with their catches beside Putri Sri Ayuni.",
+      "title": "Penida Spearfishing",
+      "caption": "Two spearfishers with their catches beside Putri Sri Ayuni.",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "putu-commercial",
+      "original": "DSC00832.jpg",
+      "alt": "Putu handling a catch alongside the boat.",
+      "title": "Putu Commercial",
+      "caption": "Putu handling a catch alongside the boat.",
+      "width": 1280,
+      "height": 1916
+    },
+    {
+      "id": "fresh-fillet",
+      "original": "DSC00837.jpg",
+      "alt": "A close view of a freshly prepared fish fillet.",
+      "title": "Fresh Fillet",
+      "caption": "A close view of a freshly prepared fish fillet.",
+      "width": 1280,
+      "height": 854
     }
   ],
   "videos": [

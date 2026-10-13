@@ -9,8 +9,8 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
   const html = await readOutput('spearfishing.html');
   assert.match(html, /<title>Bali Monster/);
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com/);
-  assert.match(html, /CHASE THE/);
-  assert.match(html, /Dogtooth tuna/);
+  assert.match(html, /SPEARFISHING BALI/);
+  assert.match(html, /Dogtooth Tuna/);
   const links = [...html.matchAll(/<a\b[^>]*href="(https:\/\/wa\.me\/[^"]+)"/g)].map(match => new URL(match[1].replaceAll('&amp;', '&').replaceAll('&#x27;', "'")));
   assert.ok(links.length >= 8, 'booking links render without needing client JavaScript');
   for (const link of links) {
@@ -30,7 +30,7 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
 test('exports a real 404 page so Pages does not fall back to the homepage', async () => {
   const html = await readOutput('404.html');
   assert.match(html, /404/);
-  assert.doesNotMatch(html, /CHASE THE/);
+  assert.doesNotMatch(html, /SPEARFISHING BALI/);
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 10);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 14);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -118,4 +118,15 @@ test('neutral landing and charters keep catches out of the browsing path', async
   const charter = await readOutput('charters.html');
   for (const id of ['snorkeling', 'sunsets', 'camping', 'sportfishing', 'island-transfer']) assert.ok(charter.includes(`id="${id}"`));
   for (const [, href] of charter.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)) assert.equal(new URL(href.replaceAll('&amp;', '&')).pathname, '/15127679350');
+});
+
+ test('review feedback renders destinations, safety, founder, and catch policy', async () => {
+  for (const file of ['index.html', 'charters.html']) {
+    const html = await readOutput(file);
+    for (const text of ['Nusa Penida', 'Nusa Lembongan', 'Nusa Ceningan', 'Manta Point', 'Padang Bai', 'Tulamben', 'EPIRB', 'cancel trips']) assert.ok(html.includes(text), `${file}: ${text}`);
+    assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
+  }
+  const html = await readOutput('spearfishing.html');
+  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
+  for (const photo of ['penida-spearfishing', 'putu-ari', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });

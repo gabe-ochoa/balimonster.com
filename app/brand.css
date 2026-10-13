@@ -63,3 +63,21 @@
 @media(prefers-reduced-motion:reduce){html {scroll-behavior:auto}.bm-choice>img {transition:none}}
 .bm-dialog {margin:auto}
 @media(max-width:600px){.bm-hero-copy {padding-left:6%;padding-right:6%}.bm-hero-bottom {left:6%;right:6%}.bm-story {margin-left:6%;margin-right:6%}.bm-end,.bm-footer {padding-left:6%;padding-right:6%}.bm-dialog-options p br:after {content:' '}}
+.bm-destination-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:30px;border-top:1px solid #abb9a7;padding-top:30px}
+.bm-destination-grid article>span {font-size:10px;letter-spacing:2px;font-weight:800}
+.bm-destination-grid h3 {margin:20px 0 12px;font-size:36px}
+.bm-destination-grid p,.bm-beach-days>p:not(.bm-kicker) {color:#4e6560;font-size:15px;max-width:720px}
+.bm-safety {background:var(--deep);color:var(--cream);padding:70px 7%;margin-bottom:80px}
+.bm-safety .bm-kicker {color:var(--yellow)}
+.bm-safety>p:not(.bm-kicker) {max-width:780px;font-size:16px;color:#e4e9db}
+.bm-beach-days {padding-top:0}
+.spear-profile {display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.spear-profile img {width:100%;max-height:680px;object-fit:cover}
+.spear-profile p {max-width:650px}
+.spear-profile h2 {font-size:clamp(48px,6vw,84px)}
+.spear-detail {padding:80px 0}
+.spear-safety {background:#123f40;color:#f5f2e8;padding:65px 7%}
+.spear-safety p {max-width:850px}
+.spear-hero-title {font-size:clamp(60px,7vw,110px)!important}
+.spear-catch-photo {margin-top:24px;width:100%;max-height:400px;object-fit:cover}
+@media(max-width:700px){.bm-destination-grid,.spear-profile {grid-template-columns:1fr;gap:30px}.bm-safety {margin-bottom:55px;padding:50px 6%}.spear-detail {padding:55px 0}.spear-profile img {max-height:450px}.spear-hero-title {font-size:60px!important}}
