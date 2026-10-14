@@ -17,7 +17,7 @@ export default function ActivityPicker() {
       <h2 id="picker-title">What brings you<br />to the water?</h2>
       <p>One ocean. Two ways to make it yours.</p>
       <div className="bm-dialog-options">
-        <a href="/charters"><span className="bm-choice-number">01 / TAKE IT ALL IN</span><h3>Boat charters <span aria-hidden="true">↗</span></h3><p>Snorkeling, sunsets, camping,<br />sportfishing &amp; island transfers.</p><strong>Explore boat trips →</strong></a>
+        <a href="/charters"><span className="bm-choice-number">01 / TAKE IT ALL IN</span><h3>Boat charters <span aria-hidden="true">↗</span></h3><p>Snorkeling, sunsets,<br />sportfishing &amp; island transfers.</p><strong>Explore boat trips →</strong></a>
         <a href="/spearfishing"><span className="bm-choice-number">02 / GO A LITTLE DEEPER</span><h3>Spearfishing <span aria-hidden="true">↗</span></h3><p>For time below the surface <br />and the thrill of the hunt.</p><strong>Explore spearfishing →</strong></a>
       </div>
       <button className="bm-skip" onClick={close}>Just looking? Explore Bali Monster</button>

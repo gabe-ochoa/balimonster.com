@@ -34,7 +34,7 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', '404.html']) {
+  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', 'blog/spearfishing-in-indonesia.html', '404.html']) {
     const html = await readOutput(file);
     const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
     assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html' };
+  const pages = { '/': 'index.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -111,12 +111,12 @@ test('neutral landing and charters keep catches out of the browsing path', async
     const html = await readOutput(file);
     assert.match(html, /BALI MONSTER/);
     assert.doesNotMatch(html, /(?:src|poster|content)="[^" ]*(?:two-catches|catch-closeup|blue-water-catch|sunset-crew|boat-day|sunset-return|heading-home)/);
-    for (const activity of ['Snorkeling', 'Sunsets', 'Camping', 'Sportfishing', 'Island transfer']) assert.ok(html.includes(activity), activity);
+    for (const activity of ['Snorkeling', 'Sunsets', 'Sportfishing', 'Island transfer']) assert.ok(html.includes(activity), activity);
     assert.match(html, /href="\/spearfishing"/);
     assert.match(html, /href="\/charters/);
   }
   const charter = await readOutput('charters.html');
-  for (const id of ['snorkeling', 'sunsets', 'camping', 'sportfishing', 'island-transfer']) assert.ok(charter.includes(`id="${id}"`));
+  for (const id of ['snorkeling', 'sunsets', 'sportfishing', 'island-transfer']) assert.ok(charter.includes(`id="${id}"`));
   for (const [, href] of charter.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)) assert.equal(new URL(href.replaceAll('&amp;', '&')).pathname, '/15127679350');
 });
 
@@ -129,4 +129,18 @@ test('neutral landing and charters keep catches out of the browsing path', async
   const html = await readOutput('spearfishing.html');
   for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
   for (const photo of ['penida-spearfishing', 'putu-ari', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
+});
+
+test('October 14 feedback removes camping and adds island stays and linked field notes', async () => {
+  for (const file of ['index.html', 'charters.html']) {
+    const html = await readOutput(file);
+    assert.doesNotMatch(html, /camping/i);
+    for (const text of ['cliffs', 'hidden bays', 'island temple', 'soft corals', 'mangrove forest', 'Blue Lagoon', 'Multi-day trips', 'by land']) assert.ok(html.includes(text), `${file}: ${text}`);
+  }
+  const route = '/blog/spearfishing-in-indonesia';
+  assert.ok((await readOutput('spearfishing.html')).includes(`href="${route}"`));
+  const html = await readOutput('blog/spearfishing-in-indonesia.html');
+  assert.ok(html.includes(`rel="canonical" href="https://balimonster.com${route}"`));
+  for (const text of ['drift diving', 'Never dive alone', 'spearfishing.northbali', 'indospearfishing', 'gusame_spearfishingbali', 'tabasanbalispearfishing']) assert.ok(html.includes(text), text);
+  assert.ok((await readOutput('sitemap.xml')).includes(route));
 });

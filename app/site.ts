@@ -3,7 +3,7 @@ export const site = {
   url: 'https://balimonster.com',
   phone: '15127679350',
   phoneDisplay: '+1 512 767 9350',
-  description: 'Discover Bali with Bali Monster. Snorkeling, sunsets, camping, sportfishing, island transfers, and spearfishing. Choose your ocean adventure.',
+  description: 'Explore Nusa Penida by sea with Bali Monster. Snorkeling, sunsets, sportfishing, island transfers, and spearfishing. Choose your ocean adventure.',
 };
 
 export function bookingUrl(interest = 'a trip in Bali') {
