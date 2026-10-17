@@ -13,9 +13,10 @@ export const metadata = {
 };
 
 const guides = [
-  ['spearfishing.northbali', 'Singaraja FADs'],
-  ['indospearfishing', 'Uluwatu'],
   ['gusame_spearfishingbali', 'Kuta'],
+  ['indospearfishing', 'Uluwatu'],
+  ['mariospearfishingbali', 'Nusa Penida / Lombok'],
+  ['spearfishing.northbali', 'Singaraja FADs'],
   ['tabasanbalispearfishing', 'Serangan / Nusa Dua'],
 ];
 

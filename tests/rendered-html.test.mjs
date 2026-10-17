@@ -98,7 +98,7 @@ test('internal navigation and anchors resolve in the static export', async () =>
 
 test('published media fits Pages limits and excludes original videos', async () => {
   const files = await readdir(new URL('media/', output));
-  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 3);
+  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 6);
   for (const file of files) {
     assert.match(file, /\.(jpg|mp4)$/);
     assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
@@ -143,4 +143,31 @@ test('October 14 feedback removes camping and adds island stays and linked field
   assert.ok(html.includes(`rel="canonical" href="https://balimonster.com${route}"`));
   for (const text of ['drift diving', 'Never dive alone', 'spearfishing.northbali', 'indospearfishing', 'gusame_spearfishingbali', 'tabasanbalispearfishing']) assert.ok(html.includes(text), text);
   assert.ok((await readOutput('sitemap.xml')).includes(route));
+});
+
+
+test('October 17 feedback places silent loops on the right pages and alphabetizes guides', async () => {
+  for (const file of ['index.html', 'charters.html', 'spearfishing.html']) {
+    const html = await readOutput(file);
+    const expected = file === 'spearfishing.html' ? ['spearfishing-hero'] : ['penida-hero', 'snorkeling-trevally'];
+    for (const id of expected) {
+      assert.ok(html.includes(`/media/${id}.mp4`), `${file}: ${id}`);
+      assert.ok(html.includes(`/media/${id}-poster.jpg`));
+    }
+    const loops = [...html.matchAll(/<video\b([^>]*class="loop-video"[^>]*)>/g)];
+    assert.equal(loops.length, expected.length);
+    for (const [, attributes] of loops) {
+      assert.match(attributes, /muted/i);
+      assert.match(attributes, /loop/i);
+      assert.match(attributes, /playsinline/i);
+    }
+    assert.ok(html.includes('Play video'), 'fallback playback control renders without JS');
+  }
+  const spear = await readOutput('spearfishing.html');
+  assert.ok(spear.indexOf('/media/penida-spearfishing-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
+  const blog = await readOutput('blog/spearfishing-in-indonesia.html');
+  const handles = [...blog.matchAll(/href="https:\/\/www.instagram.com\/([^/]+)\/"/g)].map(match => match[1]);
+  assert.equal(handles.length, 5);
+  assert.ok(handles.includes('mariospearfishingbali'));
+  assert.deepEqual(handles, [...handles].sort());
 });

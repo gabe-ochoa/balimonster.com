@@ -1,4 +1,5 @@
-import { Arrow, Photo } from './components';
+import LoopVideo from './loop-video';
+import { Arrow } from './components';
 import { bookingUrl } from './site';
 
 export function SafetyNote() {
@@ -10,7 +11,7 @@ export function IslandTrips() {
 }
 
 export function SnorkelingStory() {
-  return <section className="bm-story bm-snorkeling"><Photo id="at-the-surface" /><div><p className="bm-kicker">LOCAL KNOWLEDGE. A DIFFERENT VIEW.</p><h2>Beyond the usual<br />snorkeling trip.</h2><p>Putu’s years as a commercial spearfisherman have led him to underwater structures alive with fish. Explore these places at your own pace, with snorkeling and freediving for beginners and experienced guests.</p><p>Alongside the Nusa islands, we offer snorkeling trips to Padang Bai and Tulamben.</p><a className="bm-button" href={bookingUrl('snorkeling around the Nusa islands')}>Plan a snorkeling trip <Arrow /></a></div></section>;
+  return <section className="bm-story bm-snorkeling"><LoopVideo id="snorkeling-trevally" label="Snorkeling among bigeye trevally" /><div><p className="bm-kicker">LOCAL KNOWLEDGE. A DIFFERENT VIEW.</p><h2>Beyond the usual<br />snorkeling trip.</h2><p>Putu’s years as a commercial spearfisherman have led him to underwater structures alive with fish. Explore these places at your own pace, with snorkeling and freediving for beginners and experienced guests.</p><p>Alongside the Nusa islands, we offer snorkeling trips to Padang Bai and Tulamben.</p><a className="bm-button" href={bookingUrl('snorkeling around the Nusa islands')}>Plan a snorkeling trip <Arrow /></a></div></section>;
 }
 
 export function BeachDays() {
