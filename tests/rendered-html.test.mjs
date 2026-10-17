@@ -9,7 +9,7 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
   const html = await readOutput('spearfishing.html');
   assert.match(html, /<title>Bali Monster/);
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com/);
-  assert.match(html, /SPEARFISHING BALI/);
+  assert.match(html, /SPEARFISHING/);
   assert.match(html, /Dogtooth Tuna/);
   const links = [...html.matchAll(/<a\b[^>]*href="(https:\/\/wa\.me\/[^"]+)"/g)].map(match => new URL(match[1].replaceAll('&amp;', '&').replaceAll('&#x27;', "'")));
   assert.ok(links.length >= 8, 'booking links render without needing client JavaScript');
@@ -30,7 +30,7 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
 test('exports a real 404 page so Pages does not fall back to the homepage', async () => {
   const html = await readOutput('404.html');
   assert.match(html, /404/);
-  assert.doesNotMatch(html, /SPEARFISHING BALI/);
+  assert.doesNotMatch(html, /SPEARFISHING/);
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
@@ -127,7 +127,7 @@ test('neutral landing and charters keep catches out of the browsing path', async
     assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
   }
   const html = await readOutput('spearfishing.html');
-  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'PUTRI SRI AYUNI', '300-litre']) assert.ok(html.includes(text), text);
+  for (const text of ['IN BALI.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
   for (const photo of ['max04433', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });
 
@@ -180,4 +180,16 @@ test('new photos, caption-free gallery, and separate mobile booking section rend
   assert.ok((await readOutput('spearfishing.html')).includes('/media/max04603-1280.jpg'));
   assert.ok((await readOutput('blog/spearfishing-in-indonesia.html')).includes('/media/max03800-1280.jpg'));
   for (const file of ['index.html','charters.html','spearfishing.html']) assert.match(await readOutput(file), /<div class="bm-mobile-booking"><a[^>]*href="https:\/\/wa.me/);
+});
+
+
+test('published pages omit decorative labels while retaining navigation and accessibility', async () => {
+  for (const file of ['index.html','charters.html','spearfishing.html','gallery.html','blog/spearfishing-in-indonesia.html']) {
+    const html = await readOutput(file);
+    assert.doesNotMatch(html, /class="(?:eyebrow|bm-kicker|bm-ticker|activity-strip|hero-side-note|image-caption|button-note)"/);
+    assert.doesNotMatch(html, /GOOD DAYS START|LESS NOISE|YOUR KIND|REAL STORIES|REIMAGINED/);
+    assert.match(html, /<h1/);
+    assert.match(html, /Skip to content/);
+    assert.match(html, /aria-label=/);
+  }
 });
