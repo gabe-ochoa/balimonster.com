@@ -25,10 +25,10 @@ export function Photo({ id, className, priority = false, sizes = '(max-width: 70
   // eslint-disable-next-line @next/next/no-img-element
   return <img className={className} src={`/media/${id}-1280.jpg`} srcSet={`/media/${id}-640.jpg 640w, /media/${id}-1280.jpg ${item.width}w`} sizes={sizes} width={item.width} height={item.height} alt={photo?.alt ?? clip?.description ?? ''} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" />;
 }
-export function Film({ id }: { id: string }) {
+export function Film({ id, showCaption = true }: { id: string; showCaption?: boolean }) {
   const clip = media.videos.find(clip => clip.id === id);
   if (!clip) throw new Error(`Unknown video: ${id}`);
-  return <figure className="film"><video controls muted playsInline preload="none" poster={`/media/${id}-1280.jpg`} width={clip.width} height={clip.height} aria-label={clip.title} aria-describedby={`${id}-caption`}><source src={`/media/${id}.mp4`} type="video/mp4" /><a href={`/media/${id}.mp4`}>Watch {clip.title}</a></video><figcaption id={`${id}-caption`}><span className="film-label">{clip.duration} SEC · SILENT CLIP</span><h3>{clip.title}</h3><p>{clip.description}</p></figcaption></figure>;
+  return <figure className="film"><video controls muted playsInline preload="none" poster={`/media/${id}-1280.jpg`} width={clip.width} height={clip.height} aria-label={clip.title} aria-describedby={showCaption ? `${id}-caption` : undefined}><source src={`/media/${id}.mp4`} type="video/mp4" /><a href={`/media/${id}.mp4`}>Watch {clip.title}</a></video>{showCaption && <figcaption id={`${id}-caption`}><span className="film-label">{clip.duration} SEC · SILENT CLIP</span><h3>{clip.title}</h3><p>{clip.description}</p></figcaption>}</figure>;
 }
 
 export function BrandIllustration() {

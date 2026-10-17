@@ -8,8 +8,8 @@ const url = `${site.url}/blog/spearfishing-in-indonesia`;
 export const metadata = {
   title: `${title} | Bali Monster`, description,
   alternates: { canonical: url },
-  openGraph: { type: 'article', url, title, description, siteName: site.name, images: [{ url: `${site.url}/media/below-the-surface-1280.jpg`, width: 1280, height: 720, alt: 'A freediver in blue water.' }] },
-  twitter: { card: 'summary_large_image', title, description, images: [`${site.url}/media/below-the-surface-1280.jpg`] },
+  openGraph: { type: 'article', url, title, description, siteName: site.name, images: [{ url: `${site.url}/media/max03800-1280.jpg`, width: 1280, height: 852, alt: 'Three spearfishers with their catches in shallow water.' }] },
+  twitter: { card: 'summary_large_image', title, description, images: [`${site.url}/media/max03800-1280.jpg`] },
 };
 
 const guides = [
@@ -24,7 +24,7 @@ export default function SpearfishingInIndonesia() {
   return <div className="bm bm-journal"><BrandHeader activity="FIELD NOTES" /><main id="main">
     <article className="bm-article">
       <header><a className="bm-link" href="/spearfishing">← Back to spearfishing</a><p className="bm-kicker">BALI MONSTER / FIELD NOTES</p><h1>So you want to go spearfishing in Indonesia.</h1><p className="bm-article-deck">Here’s what to expect.</p><p className="bm-article-byline">From the Bali Monster team · October 14, 2026</p></header>
-      <Photo id="below-the-surface" priority sizes="(max-width: 800px) 100vw, 900px" />
+      <Photo id="max03800" priority sizes="(max-width: 800px) 100vw, 900px" />
       <div className="bm-article-body">
         <p className="bm-article-lead">Extraordinary biodiversity. Dramatic underwater terrain. Water that can change character in a moment. Indonesia is one of the most beautiful and demanding places we know to freedive and spearfish.</p>
         <h2>Beautiful water. Serious currents.</h2>

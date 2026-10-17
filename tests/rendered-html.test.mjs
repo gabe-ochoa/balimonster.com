@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 14);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 19);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -127,8 +127,8 @@ test('neutral landing and charters keep catches out of the browsing path', async
     assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
   }
   const html = await readOutput('spearfishing.html');
-  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
-  for (const photo of ['penida-spearfishing', 'putu-ari', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
+  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'PUTRI SRI AYUNI', '300-litre']) assert.ok(html.includes(text), text);
+  for (const photo of ['max04433', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });
 
 test('October 14 feedback removes camping and adds island stays and linked field notes', async () => {
@@ -164,10 +164,20 @@ test('October 17 feedback places silent loops on the right pages and alphabetize
     assert.ok(html.includes('Play video'), 'fallback playback control renders without JS');
   }
   const spear = await readOutput('spearfishing.html');
-  assert.ok(spear.indexOf('/media/penida-spearfishing-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
+  assert.ok(spear.indexOf('/media/max04433-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
   const blog = await readOutput('blog/spearfishing-in-indonesia.html');
   const handles = [...blog.matchAll(/href="https:\/\/www.instagram.com\/([^/]+)\/"/g)].map(match => match[1]);
   assert.equal(handles.length, 5);
   assert.ok(handles.includes('mariospearfishingbali'));
   assert.deepEqual(handles, [...handles].sort());
+});
+
+
+test('new photos, caption-free gallery, and separate mobile booking section render', async () => {
+  const gallery = await readOutput('gallery.html');
+  for (const id of ['max03866','max03800','max04433','max04603','max05511']) assert.ok(gallery.includes(`/media/${id}-1280.jpg`));
+  assert.doesNotMatch(gallery, /<figcaption/);
+  assert.ok((await readOutput('spearfishing.html')).includes('/media/max04603-1280.jpg'));
+  assert.ok((await readOutput('blog/spearfishing-in-indonesia.html')).includes('/media/max03800-1280.jpg'));
+  for (const file of ['index.html','charters.html','spearfishing.html']) assert.match(await readOutput(file), /<div class="bm-mobile-booking"><a[^>]*href="https:\/\/wa.me/);
 });

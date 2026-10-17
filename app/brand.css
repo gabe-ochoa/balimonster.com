@@ -113,3 +113,11 @@
 .spear-boat img {width:100%;max-height:500px;object-fit:cover}
 .spear-boat p {padding:12px 0;font-size:13px}
 @media(max-width:600px){.bm-story>.loop-media {min-height:260px}.loop-toggle {right:6%;bottom:55px}.spear-boat {padding-top:30px}}
+
+.bm-mobile-booking {display:none}
+@media(max-width:600px){
+  .bm-hero-actions,.bm-hero-copy>.bm-button,.hero-copy>.button,.hero-copy>.button-note {display:none}
+  .bm-mobile-booking {display:flex;justify-content:center;padding:22px 6%;background:#f5f2e8}
+  .bm-mobile-booking .bm-button {background:#e5ef97;color:#122f31;width:100%;max-width:430px}
+}
+@media(max-width:600px){.hero>.loop-toggle {bottom:90px}}
