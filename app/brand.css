@@ -136,9 +136,6 @@
 .boat-description ul {padding-left:24px;line-height:1.8}
 .jukung-photos {display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px}
 .jukung-photos img {width:100%;height:auto}
-.final-cta-inverted {background:#000;color:var(--lime)}
-.final-cta-inverted .button {background:var(--lime);color:var(--ocean)}
-.final-cta-inverted .brand-illustration {mix-blend-mode:screen;filter:invert(1) sepia(1) saturate(3) hue-rotate(15deg)}
 @media(max-width:600px){.jukung-photos {grid-template-columns:1fr}.boat-description {padding:30px 0}}
 .hunt-grid>div {min-width:0}
 @media(max-width:600px){.hunt-copy h2 {font-size:48px}}
