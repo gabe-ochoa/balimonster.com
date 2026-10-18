@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 22);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 23);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -128,7 +128,7 @@ test('neutral landing and charters keep catches out of the browsing path', async
   }
   const html = await readOutput('spearfishing.html');
   for (const text of ['IN BALI.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
-  for (const photo of ['max04433', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
+  for (const photo of ['dsc00785', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });
 
 test('October 14 feedback removes camping and adds island stays and linked field notes', async () => {
@@ -164,7 +164,7 @@ test('October 17 feedback places silent loops on the right pages and alphabetize
     assert.ok(html.includes('Play video'), 'fallback playback control renders without JS');
   }
   const spear = await readOutput('spearfishing.html');
-  assert.ok(spear.indexOf('/media/max04433-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
+  assert.ok(spear.indexOf('/media/dsc00785-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
   const blog = await readOutput('blog/spearfishing-in-indonesia.html');
   const handles = [...blog.matchAll(/href="https:\/\/www.instagram.com\/([^/]+)\/"/g)].map(match => match[1]);
   assert.equal(handles.length, 5);
@@ -198,7 +198,17 @@ test('published pages omit decorative labels while retaining navigation and acce
   const spear = await readOutput('spearfishing.html');
   for (const text of ['Blue Water Drifting','Reef Hunting','Andre Spearguns','href="/missions"']) assert.ok(spear.includes(text), text);
   const missions = await readOutput('missions.html');
-  for (const text of ['Alas Purwo, Java','The Last Rumpon, Singaraja','Abdul Kadir','Details and dates to be announced.','https://balimonster.com/missions']) assert.ok(missions.includes(text), text);
+  for (const text of ['Alas Purwo, Java','The Last Rumpon, Singaraja','Abdul Kadir','More information to come soon, but we’ve got exciting plans.','https://balimonster.com/missions']) assert.ok(missions.includes(text), text);
   for (const id of ['max04692','max04263','max04219']) assert.ok(missions.includes(`/media/${id}-1280.jpg`));
   assert.ok((await readOutput('sitemap.xml')).includes('https://balimonster.com/missions'));
+});
+
+test('follow-up preserves mission voice, full boat image, and requested section order', async () => {
+  const html = await readOutput('spearfishing.html');
+  assert.ok(html.includes('/media/dsc00785-1280.jpg'));
+  const positions = ['id="experiences"','id="the-hunt"','EQUIPMENT','CATCH CARE'].map(text => html.indexOf(text));
+  assert.ok(positions.every(n => n >= 0));
+  assert.deepEqual(positions, [...positions].sort((a,b) => a-b));
+  const missions = await readOutput('missions.html');
+  for (const text of ['murky, Jurassic','under the stars','Balinese legend Abdul Kadir','almost always have life']) assert.ok(missions.includes(text),text);
 });
