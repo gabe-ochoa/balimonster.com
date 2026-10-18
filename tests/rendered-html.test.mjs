@@ -21,7 +21,7 @@ test('serves the complete page and sends all enquiries to the correct WhatsApp r
     assert.match(message, /Number of people:/);
     assert.match(message, /Experience level:/);
   }
-  for (const interest of ['spearfishing for dogtooth tuna', 'freediving', 'a boat charter']) {
+  for (const interest of ['spearfishing for dogtooth tuna', 'blue water drifting', 'reef hunting', 'a boat charter']) {
     assert.ok(links.some(link => link.searchParams.get('text').includes(interest)), interest);
   }
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project|balimonsterspearfishing\.com|txt\.wedding/);
@@ -34,7 +34,7 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', 'blog/spearfishing-in-indonesia.html', '404.html']) {
+  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', 'missions.html', 'blog/spearfishing-in-indonesia.html', '404.html']) {
     const html = await readOutput(file);
     const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
     assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 19);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 22);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
+  const pages = { '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -184,7 +184,7 @@ test('new photos, caption-free gallery, and separate mobile booking section rend
 
 
 test('published pages omit decorative labels while retaining navigation and accessibility', async () => {
-  for (const file of ['index.html','charters.html','spearfishing.html','gallery.html','blog/spearfishing-in-indonesia.html']) {
+  for (const file of ['index.html','charters.html','spearfishing.html','gallery.html','missions.html','blog/spearfishing-in-indonesia.html']) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /class="(?:eyebrow|bm-kicker|bm-ticker|activity-strip|hero-side-note|image-caption|button-note)"/);
     assert.doesNotMatch(html, /GOOD DAYS START|LESS NOISE|YOUR KIND|REAL STORIES|REIMAGINED/);
@@ -192,4 +192,13 @@ test('published pages omit decorative labels while retaining navigation and acce
     assert.match(html, /Skip to content/);
     assert.match(html, /aria-label=/);
   }
+});
+
+ test('missions link from spearfishing and export destination details and supplied photos', async () => {
+  const spear = await readOutput('spearfishing.html');
+  for (const text of ['Blue Water Drifting','Reef Hunting','Andre Spearguns','href="/missions"']) assert.ok(spear.includes(text), text);
+  const missions = await readOutput('missions.html');
+  for (const text of ['Alas Purwo, Java','The Last Rumpon, Singaraja','Abdul Kadir','Details and dates to be announced.','https://balimonster.com/missions']) assert.ok(missions.includes(text), text);
+  for (const id of ['max04692','max04263','max04219']) assert.ok(missions.includes(`/media/${id}-1280.jpg`));
+  assert.ok((await readOutput('sitemap.xml')).includes('https://balimonster.com/missions'));
 });
