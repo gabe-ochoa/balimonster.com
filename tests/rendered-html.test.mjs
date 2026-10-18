@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 23);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 28);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -211,4 +211,13 @@ test('follow-up preserves mission voice, full boat image, and requested section 
   assert.deepEqual(positions, [...positions].sort((a,b) => a-b));
   const missions = await readOutput('missions.html');
   for (const text of ['murky, Jurassic','under the stars','Balinese legend Abdul Kadir','almost always have life']) assert.ok(missions.includes(text),text);
+});
+
+test('PSA and local jukung details render with selected photos and gallery collection', async () => {
+ const html = await readOutput('spearfishing.html');
+ for (const text of ['PUTRI SRI AYUNI (PSA)','400 HP','six guests','250 litres','semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','final-cta-inverted']) assert.ok(html.includes(text),text);
+ for (const id of ['9197','3071']) assert.ok(html.includes(`/media/jukung-${id}-1280.jpg`));
+ for (const id of ['2823','3138','2800']) assert.ok(!html.includes(`/media/jukung-${id}-1280.jpg`));
+ const gallery = await readOutput('gallery.html');
+ for (const id of ['9197','3071','2823','3138','2800']) assert.ok(gallery.includes(`/media/jukung-${id}-1280.jpg`));
 });
