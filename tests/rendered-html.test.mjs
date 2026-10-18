@@ -127,7 +127,7 @@ test('neutral landing and charters keep catches out of the browsing path', async
     assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
   }
   const html = await readOutput('spearfishing.html');
-  for (const text of ['IN BALI.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
+  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
   for (const photo of ['dsc00785', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });
 
@@ -187,7 +187,8 @@ test('published pages omit decorative labels while retaining navigation and acce
   for (const file of ['index.html','charters.html','spearfishing.html','gallery.html','missions.html','blog/spearfishing-in-indonesia.html']) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /class="(?:eyebrow|bm-kicker|bm-ticker|activity-strip|hero-side-note|image-caption|button-note)"/);
-    assert.doesNotMatch(html, /GOOD DAYS START|LESS NOISE|YOUR KIND|REAL STORIES|REIMAGINED/);
+    assert.doesNotMatch(html, /GOOD DAYS START|LESS NOISE|YOUR KIND|REAL STORIES/);
+    assert.equal((html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '').match(/REIMAGINED/g) || []).length, file === 'spearfishing.html' ? 1 : 0);
     assert.match(html, /<h1/);
     assert.match(html, /Skip to content/);
     assert.match(html, /aria-label=/);
