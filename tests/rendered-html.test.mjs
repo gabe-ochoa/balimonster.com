@@ -215,16 +215,16 @@ test('follow-up preserves mission voice, full boat image, and requested section 
 
 test('PSA and local jukung details render with selected photos and gallery collection', async () => {
  const html = await readOutput('spearfishing.html');
- for (const text of ['PUTRI SRI AYUNI (PSA)','400 HP','six guests','250 litres','semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
+ for (const text of ['BALI MONSTER’S BOAT','Putri Sri Ayuni (PSA)','Garmin Fishfinder 585','First aid kit and flares','Electrical outlets for guests','Bean bags','400 HP','six guests','250 litres','semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
  for (const id of ['9197','3071']) assert.ok(html.includes(`/media/jukung-${id}-1280.jpg`));
  for (const id of ['2823','3138','2800']) assert.ok(!html.includes(`/media/jukung-${id}-1280.jpg`));
  const gallery = await readOutput('gallery.html');
  for (const id of ['9197','3071','2823','3138','2800']) assert.ok(gallery.includes(`/media/jukung-${id}-1280.jpg`));
 });
 
-test('Penida leads below the hero and local trips remain accessible near the bottom', async () => {
+test('Boat leads below the hero and local trips remain accessible near the bottom', async () => {
  const html = await readOutput('spearfishing.html');
- const order = ['id="hero-title"', 'id="the-hunt"', 'href="#jukung"', 'id="psa-title"', 'id="faq-title"', 'id="jukung"', 'id="cta-title"'].map(text => html.indexOf(text));
+ const order = ['id="hero-title"', 'id="psa-title"', 'id="the-hunt"', 'href="#jukung"', 'id="faq-title"', 'id="jukung"', 'id="cta-title"'].map(text => html.indexOf(text));
  assert.ok(order.every(position => position >= 0));
  assert.deepEqual(order, [...order].sort((a,b) => a-b));
  assert.ok(!html.includes('final-cta-inverted'));
