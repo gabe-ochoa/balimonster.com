@@ -1,3 +1,4 @@
+import BusinessDetails from './business-details';
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Photo, Arrow } from './components';
 import { bookingUrl } from './site';
@@ -12,7 +13,7 @@ export function MobileBooking({ activity = 'a boat charter' }: { activity?: stri
   return <div className="bm-mobile-booking"><a className="bm-button" href={bookingUrl(activity)}>Book on WhatsApp <Arrow /></a></div>;
 }
 export function BrandFooter() {
-  return <footer className="bm-footer"><a className="bm-wordmark" href="/">BALI MONSTER<span>BALI, INDONESIA</span></a><a href="/">All activities ↗</a><small>© {new Date().getFullYear()} Bali Monster</small></footer>;
+  return <footer className="bm-footer"><a className="bm-wordmark" href="/">BALI MONSTER<span>BALI, INDONESIA</span></a><a href="/">All activities ↗</a><BusinessDetails /></footer>;
 }
 const activities = [
   {id:'snorkeling',title:'Snorkeling',subtitle:'Penida. Lembongan. Ceningan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai and Tulamben, with routes for beginners and advanced guests.'},

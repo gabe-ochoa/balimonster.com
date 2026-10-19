@@ -1,3 +1,4 @@
+import BusinessDetails from './business-details';
 /* Static Pages navigation uses native links so page and hash navigation work without the client router. */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { bookingUrl } from './site';
@@ -13,7 +14,7 @@ export function Header({ gallery = false }: { gallery?: boolean }) {
   return <><a className="skip-link" href="#main">Skip to content</a><header className={`site-header${gallery ? ' gallery-header' : ''}`} id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="/#experiences">The experiences</a><a className="gallery-nav" href="/gallery" aria-current={gallery ? 'page' : undefined}>From the water</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header></>;
 }
 export function Footer() {
-  return <><footer className="site-footer"><div className="container footer-main"><Brand /><p>Spearfishing, freediving &amp; charters.<br />Bali, Indonesia.</p><a className="footer-gallery" href="/gallery">From the water <Arrow /></a><a href={bookingUrl()}>Let&apos;s get on the water <Arrow /></a></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Bali Monster Spearfishing</span><span>balimonster.com</span></div></footer><a className="mobile-booking" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a></>;
+  return <><footer className="site-footer"><div className="container footer-main"><Brand /><p>Spearfishing, freediving &amp; charters.<br />Bali, Indonesia.</p><a className="footer-gallery" href="/gallery">From the water <Arrow /></a><a href={bookingUrl()}>Let&apos;s get on the water <Arrow /></a></div><div className="container footer-bottom"><BusinessDetails /></div></footer><a className="mobile-booking" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a></>;
 }
 
 export function Photo({ id, className, priority = false, sizes = '(max-width: 700px) 100vw, 50vw' }: { id: string; className?: string; priority?: boolean; sizes?: string }) {

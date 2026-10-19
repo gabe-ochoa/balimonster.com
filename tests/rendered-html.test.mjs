@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
+  const pages = { '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/spearfishing/trip-first': 'spearfishing/trip-first.html', '/spearfishing/crew-first': 'spearfishing/crew-first.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -229,4 +229,33 @@ test('Boat leads below the hero and local trips remain accessible near the botto
  assert.ok(order.every(position => position >= 0));
  assert.deepEqual(order, [...order].sort((a,b) => a-b));
  assert.ok(!html.includes('final-cta-inverted'));
+});
+
+
+test('business identity, address and email appear in every shared footer', async () => {
+  for (const file of ['index.html','charters.html','spearfishing.html','gallery.html','missions.html','blog/spearfishing-in-indonesia.html','spearfishing/trip-first.html','spearfishing/crew-first.html']) {
+    const html = await readOutput(file);
+    const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0];
+    assert.ok(footer, file);
+    for (const text of ['PT BALI MONSTER CHARTER','Since 2026','Jl. Sekuta, Gg. Batan No. 69A','Denpasar Selatan','80228','href="mailto:balimonstercharter@gmail.com"']) assert.ok(footer.includes(text), `${file}: ${text}`);
+  }
+});
+
+test('review variants retain full content with distinct section orders and concise boat features', async () => {
+  const baseline = await readOutput('spearfishing.html');
+  const headings = html => [...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(m => m[1]);
+  const baselineHeadings = headings(baseline);
+  assert.ok(baseline.includes('The boat lets us reach further zones'));
+  for (const [slug, first] of [['trip-first','hunt-title'],['crew-first','putu-title']]) {
+    const html = await readOutput(`spearfishing/${slug}.html`);
+    assert.deepEqual(headings(html).sort(), [...baselineHeadings].sort());
+    assert.match(html, /name="robots" content="noindex, nofollow"/);
+    assert.equal(html.match(/<h2 id="([^"]+)"/)?.[1], first);
+    assert.ok(html.includes('room for six guests actively spearfishing'));
+    assert.ok(!html.includes('The boat lets us reach further zones'));
+    for (const token of ['Garmin Fishfinder 585','first aid kit','flares','250 litres','bean bags','electrical outlets','Fresh water and a toilet']) assert.ok(html.includes(token), token);
+    const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+    assert.equal(new Set(ids).size, ids.length, 'no duplicate anchors');
+  }
+  assert.deepEqual(baselineHeadings.slice(0,3), ['BALI MONSTER’S BOAT','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
 });
