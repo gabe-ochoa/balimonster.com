@@ -164,7 +164,7 @@ test('October 17 feedback places silent loops on the right pages and alphabetize
     assert.ok(html.includes('Play video'), 'fallback playback control renders without JS');
   }
   const spear = await readOutput('spearfishing.html');
-  assert.ok(spear.indexOf('/media/dsc00785-') < spear.indexOf('id="experiences"'), 'boat photo remains near the hero');
+  assert.ok(spear.indexOf('/media/dsc00785-') > spear.indexOf('id="experiences"'), 'boat photo follows the selected trip sections');
   const blog = await readOutput('blog/spearfishing-in-indonesia.html');
   const handles = [...blog.matchAll(/href="https:\/\/www.instagram.com\/([^/]+)\/"/g)].map(match => match[1]);
   assert.equal(handles.length, 5);
@@ -216,16 +216,16 @@ test('follow-up preserves mission voice, full boat image, and requested section 
 
 test('PSA and local jukung details render with selected photos and gallery collection', async () => {
  const html = await readOutput('spearfishing.html');
- for (const text of ['BALI MONSTER’S BOAT','Putri Sri Ayuni (PSA)','Garmin Fishfinder 585','First aid kit and flares','Electrical outlets for guests','Bean bags','400 HP','six guests','250 litres','semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
+ for (const text of ['BALI MONSTER’S BOAT','Putri Sri Ayuni (PSA)','Garmin Fishfinder 585','first aid kit','flares','electrical outlets','bean bags','400 HP','six guests','250 litres','Semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
  for (const id of ['9197','3071']) assert.ok(html.includes(`/media/jukung-${id}-1280.jpg`));
  for (const id of ['2823','3138','2800']) assert.ok(!html.includes(`/media/jukung-${id}-1280.jpg`));
  const gallery = await readOutput('gallery.html');
  for (const id of ['9197','3071','2823','3138','2800']) assert.ok(gallery.includes(`/media/jukung-${id}-1280.jpg`));
 });
 
-test('Boat leads below the hero and local trips remain accessible near the bottom', async () => {
+test('Putu leads below the hero, followed by trips, with local trips near the bottom', async () => {
  const html = await readOutput('spearfishing.html');
- const order = ['id="hero-title"', 'id="psa-title"', 'id="the-hunt"', 'href="#jukung"', 'id="faq-title"', 'id="jukung"', 'id="cta-title"'].map(text => html.indexOf(text));
+ const order = ['id="hero-title"', 'id="putu-title"', 'id="the-hunt"', 'href="#jukung"', 'id="experiences"', 'id="psa-title"', 'id="jukung"', 'id="faq-title"', 'id="booking-title"', 'id="cta-title"'].map(text => html.indexOf(text));
  assert.ok(order.every(position => position >= 0));
  assert.deepEqual(order, [...order].sort((a,b) => a-b));
  assert.ok(!html.includes('final-cta-inverted'));
@@ -245,7 +245,7 @@ test('review variants retain full content with distinct section orders and conci
   const baseline = await readOutput('spearfishing.html');
   const headings = html => [...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(m => m[1]);
   const baselineHeadings = headings(baseline);
-  assert.ok(baseline.includes('The boat lets us reach further zones'));
+  assert.ok(baseline.includes('room for six guests actively spearfishing'));
   for (const [slug, first] of [['trip-first','hunt-title'],['crew-first','putu-title']]) {
     const html = await readOutput(`spearfishing/${slug}.html`);
     assert.deepEqual(headings(html).sort(), [...baselineHeadings].sort());
@@ -257,5 +257,5 @@ test('review variants retain full content with distinct section orders and conci
     const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
     assert.equal(new Set(ids).size, ids.length, 'no duplicate anchors');
   }
-  assert.deepEqual(baselineHeadings.slice(0,3), ['BALI MONSTER’S BOAT','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
+  assert.deepEqual(baselineHeadings.slice(0,3), ['PUTU ARI','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
 });

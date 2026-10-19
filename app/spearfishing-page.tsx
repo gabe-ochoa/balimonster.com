@@ -51,10 +51,10 @@ const sectionOrders = {
   ],
   "crew-first": [
     "captain",
-    "boat",
-    "safety",
     "penida",
     "trips",
+    "boat",
+    "safety",
     "equipment",
     "catch",
     "photos",
