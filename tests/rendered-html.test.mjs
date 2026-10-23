@@ -98,7 +98,7 @@ test('internal navigation and anchors resolve in the static export', async () =>
 
 test('published media fits Pages limits and excludes original videos', async () => {
   const files = await readdir(new URL('media/', output));
-  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 6);
+  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 8);
   for (const file of files) {
     assert.match(file, /\.(jpg|mp4)$/);
     assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
@@ -149,7 +149,7 @@ test('October 14 feedback removes camping and adds island stays and linked field
 test('October 17 feedback places silent loops on the right pages and alphabetizes guides', async () => {
   for (const file of ['index.html', 'charters.html', 'spearfishing.html']) {
     const html = await readOutput(file);
-    const expected = file === 'spearfishing.html' ? ['spearfishing-hero'] : ['penida-hero', 'snorkeling-trevally'];
+    const expected = file === 'spearfishing.html' ? ['spearfishing-20261023'] : file === 'charters.html' ? ['penida-hero', 'manta-snorkeling', 'snorkeling-trevally'] : ['penida-hero', 'snorkeling-trevally'];
     for (const id of expected) {
       assert.ok(html.includes(`/media/${id}.mp4`), `${file}: ${id}`);
       assert.ok(html.includes(`/media/${id}-poster.jpg`));
@@ -258,4 +258,12 @@ test('review variants retain full content with distinct section orders and conci
     assert.equal(new Set(ids).size, ids.length, 'no duplicate anchors');
   }
   assert.deepEqual(baselineHeadings.slice(0,3), ['PUTU ARI','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
+});
+
+ test('charters places the manta film below options and includes Putu’s supplied portrait and bio', async () => {
+  const html = (await readOutput('charters.html')).replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
+  assert.ok(html.indexOf('/media/manta-snorkeling.mp4') > html.indexOf('Ask about island transfer'));
+  assert.ok(html.indexOf('/media/manta-snorkeling.mp4') < html.indexOf('id="charter-captain-title"'));
+  assert.match(html, /putu-smile-1280.jpg/);
+  assert.match(html, /seeing them leave with a big smile/);
 });

@@ -144,3 +144,7 @@
 .bm-business address {font-style:normal;margin:10px 0}
 .bm-business a {display:inline-flex;align-items:center;min-height:44px;overflow-wrap:anywhere}
 .bm-business small {display:block;margin-top:8px}
+
+.bm-charter-film {padding-top:0;padding-bottom:55px}
+.bm-charter-film .loop-media {position:relative;aspect-ratio:16/9}
+.bm-charter-captain>img {height:auto;object-fit:contain;align-self:center}

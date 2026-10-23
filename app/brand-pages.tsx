@@ -39,6 +39,16 @@ export function Landing({ variant }: { variant: 'popup' | 'split' | 'activity' }
   <section className="bm-end"><h2>Spearfishing</h2><a className="bm-link" href="/spearfishing">Explore spearfishing <Arrow /></a></section>
  </main><BrandFooter /></div>;
 }
+function CharterFilm() {
+  return <div className="bm-section bm-charter-film"><LoopVideo id="manta-snorkeling" label="Snorkeling with manta rays" /></div>;
+}
+function CharterCaptain() {
+  return <section className="bm-story bm-charter-captain" aria-labelledby="charter-captain-title">
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src="/media/putu-smile-1280.jpg" srcSet="/media/putu-smile-640.jpg 640w, /media/putu-smile-1280.jpg 1280w" sizes="(max-width: 700px) 100vw, 50vw" width="1280" height="854" alt="Putu Ari smiling aboard the boat off Nusa Penida." loading="lazy" decoding="async" />
+    <div><h2 id="charter-captain-title">Putu Ari</h2><p>Putu Ari is Bali Monster’s founder and captain. A Balinese guide and mechanic, he brings a decade of experience on the water. His favorite part of taking guests out is seeing them leave with a big smile.</p><a className="bm-button" href={bookingUrl('a boat day with Putu Ari')}>Plan a day with Putu <Arrow /></a></div>
+  </section>;
+}
 export function Charters() {
- return <div className="bm bm-charters"><BrandHeader activity="BOAT CHARTERS" /><main id="main"><section className="bm-hero"><LoopVideo id="penida-hero" label="Nusa Penida by sea" hero /><div className="bm-hero-shade" /><div className="bm-hero-copy"><h1>NUSA PENIDA.<br /><em>by sea.</em></h1><p>Snorkeling, sunsets, sportfishing, and island transfers with a local captain and crew.</p><a className="bm-button" href="#experiences">Find your kind of day <Arrow /></a></div></section><MobileBooking /><section className="bm-section" id="experiences"><div className="bm-section-heading"><div><h2>Charter options</h2></div><p>Confirm routes, conditions, pricing, and availability before you book.</p></div><ActivityCards detail /></section><IslandTrips /><SnorkelingStory /><BeachDays /><IslandStays /><SafetyNote /><section className="bm-end"><h2>Book a charter</h2><p>Share your dates, group size, and activity.<br />Confirm equipment, meeting points, and inclusions with the team.</p><a className="bm-button" href={bookingUrl('a boat charter')}>Chat on WhatsApp <Arrow /></a></section></main><BrandFooter /></div>;
+ return <div className="bm bm-charters"><BrandHeader activity="BOAT CHARTERS" /><main id="main"><section className="bm-hero"><LoopVideo id="penida-hero" label="Nusa Penida by sea" hero /><div className="bm-hero-shade" /><div className="bm-hero-copy"><h1>NUSA PENIDA.<br /><em>by sea.</em></h1><p>Snorkeling, sunsets, sportfishing, and island transfers with a local captain and crew.</p><a className="bm-button" href="#experiences">Find your kind of day <Arrow /></a></div></section><MobileBooking /><section className="bm-section" id="experiences"><div className="bm-section-heading"><div><h2>Charter options</h2></div><p>Confirm routes, conditions, pricing, and availability before you book.</p></div><ActivityCards detail /></section><CharterFilm /><CharterCaptain /><IslandTrips /><SnorkelingStory /><BeachDays /><IslandStays /><SafetyNote /><section className="bm-end"><h2>Book a charter</h2><p>Share your dates, group size, and activity.<br />Confirm equipment, meeting points, and inclusions with the team.</p><a className="bm-button" href={bookingUrl('a boat charter')}>Chat on WhatsApp <Arrow /></a></section></main><BrandFooter /></div>;
 }

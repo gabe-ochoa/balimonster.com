@@ -83,7 +83,7 @@ export default function SpearfishingPage({ variant = 'current' }: { variant?: ke
   };
   return <><div className="bm"><BrandHeader activity="SPEARFISHING" /></div><main id="main">
       <section className="hero" aria-labelledby="hero-title">
-        <LoopVideo id="spearfishing-hero" label="Spearfishing in Bali" hero /><div className="hero-shade" />
+        <LoopVideo id="spearfishing-20261023" label="Spearfishing in Bali" hero /><div className="hero-shade" />
         <div className="container hero-inner"><div className="hero-copy"><h1 id="hero-title" className="spear-hero-title">SPEARFISHING BALI,<br /><span>REIMAGINED.</span></h1><p className="hero-description">Guided trips with Putu Ari, a Balinese captain with a decade of spearfishing experience.</p><a className="button button-lime" href={bookingUrl()}>Plan your trip on WhatsApp <Arrow /></a></div><div className="hero-bottom"><a href="#experiences">Explore the experiences <span aria-hidden="true">↓</span></a></div></div>
       </section>
 <MobileBooking activity="spearfishing" />
