@@ -149,7 +149,7 @@ test('October 14 feedback removes camping and adds island stays and linked field
 test('October 17 feedback places silent loops on the right pages and alphabetizes guides', async () => {
   for (const file of ['index.html', 'charters.html', 'spearfishing.html']) {
     const html = await readOutput(file);
-    const expected = file === 'spearfishing.html' ? ['spearfishing-20261023'] : file === 'charters.html' ? ['penida-hero', 'manta-snorkeling', 'snorkeling-trevally'] : ['penida-hero', 'snorkeling-trevally'];
+    const expected = file === 'spearfishing.html' ? ['spearfishing-20261023'] : file === 'charters.html' ? ['penida-hero', 'manta-snorkeling-trimmed', 'snorkeling-trevally'] : ['penida-hero', 'snorkeling-trevally'];
     for (const id of expected) {
       assert.ok(html.includes(`/media/${id}.mp4`), `${file}: ${id}`);
       assert.ok(html.includes(`/media/${id}-poster.jpg`));
@@ -260,10 +260,11 @@ test('review variants retain full content with distinct section orders and conci
   assert.deepEqual(baselineHeadings.slice(0,3), ['PUTU ARI','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
 });
 
- test('charters places the manta film below options and includes Putu’s supplied portrait and bio', async () => {
+ test('charters places the manta film below destinations and includes Putu’s supplied portrait and bio', async () => {
   const html = (await readOutput('charters.html')).replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
-  assert.ok(html.indexOf('/media/manta-snorkeling.mp4') > html.indexOf('Ask about island transfer'));
-  assert.ok(html.indexOf('/media/manta-snorkeling.mp4') < html.indexOf('id="charter-captain-title"'));
+  assert.ok(html.indexOf('/media/manta-snorkeling-trimmed.mp4') > html.indexOf('<h3>Nusa Ceningan</h3>'));
+  assert.ok(html.indexOf('/media/manta-snorkeling-trimmed.mp4') < html.indexOf('class="bm-story bm-snorkeling"'));
+  assert.ok(html.indexOf('id="charter-captain-title"') < html.indexOf('<h2>Destinations</h2>'));
   assert.match(html, /putu-smile-1280.jpg/);
   assert.match(html, /seeing them leave with a big smile/);
 });
