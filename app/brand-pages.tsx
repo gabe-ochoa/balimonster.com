@@ -12,8 +12,8 @@ export function BrandHeader({ activity }: { activity?: string }) {
 export function MobileBooking({ activity = 'a boat charter' }: { activity?: string }) {
   return <div className="bm-mobile-booking"><a className="bm-button" href={bookingUrl(activity)}>Book on WhatsApp <Arrow /></a></div>;
 }
-export function BrandFooter() {
-  return <footer className="bm-footer"><a className="bm-wordmark" href="/">BALI MONSTER<span>BALI, INDONESIA</span></a><a href="/">All activities ↗</a><BusinessDetails /></footer>;
+export function BrandFooter({ home = '/' }: { home?: string }) {
+  return <footer className="bm-footer"><a className="bm-wordmark" href={home}>BALI MONSTER<span>BALI, INDONESIA</span></a><a href={home}>All activities ↗</a><BusinessDetails /></footer>;
 }
 const activities = [
   {id:'snorkeling',title:'Snorkeling',subtitle:'Penida. Lembongan. Ceningan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai and Tulamben, with routes for beginners and advanced guests.'},
@@ -42,7 +42,7 @@ export function Landing({ variant }: { variant: 'popup' | 'split' | 'activity' }
 function CharterFilm() {
   return <div className="bm-section bm-charter-film"><LoopVideo id="manta-snorkeling-trimmed" label="Snorkeling with manta rays" /></div>;
 }
-function CharterCaptain() {
+export function CharterCaptain() {
   return <section className="bm-story bm-charter-captain" aria-labelledby="charter-captain-title">
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src="/media/putu-smile-1280.jpg" srcSet="/media/putu-smile-640.jpg 640w, /media/putu-smile-1280.jpg 1280w" sizes="(max-width: 700px) 100vw, 50vw" width="1280" height="854" alt="Putu Ari smiling aboard the boat off Nusa Penida." loading="lazy" decoding="async" />

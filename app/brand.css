@@ -148,3 +148,25 @@
 .bm-charter-film {padding-top:0;padding-bottom:55px}
 .bm-charter-film .loop-media {position:relative;aspect-ratio:16/9}
 .bm-charter-captain>img {height:auto;object-fit:contain;align-self:center}
+
+/* November review: inline boat features and a smaller catch image near the trip photos. */
+.spear-boat .boat-description .boat-name {font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:600;color:var(--ink);line-height:1.15}
+.catch-care {display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:40px;align-items:center}
+.catch-care img {width:100%;max-height:260px;object-fit:cover}
+.catch-care p {max-width:650px}
+@media(max-width:700px){.catch-care {grid-template-columns:1fr;gap:24px}.catch-care img {max-height:220px}}
+.scenario-copy {max-width:850px}
+.scenario-copy p {font-size:17px;line-height:1.8;margin-top:24px}
+.scenario-routes .bm-choices {padding:0}
+.week-enquiry form {display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:28px 0}
+.week-enquiry select {padding:14px;border:1px solid #244d48;background:white;color:#122f31;font:inherit}
+.week-enquiry button {cursor:pointer;font:inherit}
+.learn-intro h1 {font-size:clamp(46px,6vw,88px)}
+
+
+
+
+.learn-packages .bm-activities {grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.learn-packages .bm-activities {grid-template-columns:1fr}.learn-packages .bm-activities article {border-right:0}.week-enquiry select {max-width:100%}}
+
+@media(max-width:700px){.scenario-header {align-items:flex-start;flex-direction:column}.scenario-header nav {max-width:none;justify-content:flex-start;gap:18px;flex-wrap:wrap}.week-enquiry form {align-items:stretch;flex-direction:column}}

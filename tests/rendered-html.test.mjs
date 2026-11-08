@@ -34,7 +34,7 @@ test('exports a real 404 page so Pages does not fall back to the homepage', asyn
 });
 
 test('exports all referenced assets and domain discovery files', async () => {
-  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', 'missions.html', 'blog/spearfishing-in-indonesia.html', '404.html']) {
+  for (const file of ['index.html', 'charters.html', 'spearfishing.html', 'gallery.html', 'missions.html', 'review/charter-home.html', 'snorkeling.html', 'spearfishing/learn.html', 'blog/spearfishing-in-indonesia.html', '404.html']) {
     const html = await readOutput(file);
     const assets = [...html.matchAll(/(?:src|poster)="(\/[^"#?]+)"/g)].map(match => match[1]);
     assets.push(...[...html.matchAll(/href="(\/_next\/[^"]+)"/g)].map(match => match[1]));
@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/spearfishing/trip-first': 'spearfishing/trip-first.html', '/spearfishing/crew-first': 'spearfishing/crew-first.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
+  const pages = { '/review/charter-home/spearfishing': 'review/charter-home/spearfishing.html', '/review/charter-home': 'review/charter-home.html', '/snorkeling': 'snorkeling.html', '/spearfishing/learn': 'spearfishing/learn.html', '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/spearfishing/trip-first': 'spearfishing/trip-first.html', '/spearfishing/crew-first': 'spearfishing/crew-first.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -267,4 +267,72 @@ test('review variants retain full content with distinct section orders and conci
   assert.ok(html.indexOf('id="charter-captain-title"') < html.indexOf('<h2>Destinations</h2>'));
   assert.match(html, /putu-smile-1280.jpg/);
   assert.match(html, /seeing them leave with a big smile/);
+});
+
+
+test('charter scenario routes guests to activities and keeps availability unconfirmed', async () => {
+  const home = await readOutput('review/charter-home.html');
+  for (const route of ['/snorkeling', '/review/charter-home/spearfishing']) assert.ok(home.includes(`href="${route}"`));
+  assert.match(home, /Komodo/);
+  assert.match(home, /G-Land and Alas Purwo/);
+  assert.match(home, /name="robots" content="noindex/);
+  for (const file of ['review/charter-home.html', 'snorkeling.html']) {
+    const html = await readOutput(file);
+    assert.match(html, /Availability is unconfirmed/);
+    assert.match(html, /action="https:\/\/wa\.me\/15127679350" method="get"/);
+    assert.match(html, /<select[^>]+name="text"/);
+    assert.match(html, /Preferred dates: [0-9]/);
+    assert.match(html, /Other dates/);
+    assert.match(html, /confirm specific days/);
+    assert.match(html, /2–3 days/);
+    assert.doesNotMatch(html, /Book now|weeks available|booking confirmed/i);
+  }
+  const snorkeling = await readOutput('snorkeling.html');
+  assert.match(snorkeling, /extra guides/);
+  assert.match(snorkeling, /Wildlife sightings are never guaranteed/);
+  const learn = await readOutput('spearfishing/learn.html');
+  for (const text of ['Mertasari Beach', 'Nusa Dua', 'Serangan', 'Three-day package', 'All meals are included', 'Never dive alone']) assert.ok(learn.includes(text));
+  assert.ok((await readOutput('spearfishing.html')).includes('href="/spearfishing/learn"'));
+});
+
+test('boat features remain readable and charters follow Baresa Cargo', async () => {
+  const html = await readOutput('spearfishing.html');
+  assert.match(html, /class="boat-name"/);
+  assert.match(html, /flares · Two freezer bags/);
+  for (const file of ['spearfishing.html', 'spearfishing/trip-first.html', 'spearfishing/crew-first.html', 'review/charter-home/spearfishing.html']) {
+    const page = await readOutput(file);
+    const local = page.indexOf('id="jukung-title"');
+    const charter = page.indexOf('id="charters-title"');
+    assert.ok(local >= 0 && charter > local);
+  }
+});
+
+
+test('week enquiry carries the chosen range without JavaScript, including year boundaries', async () => {
+  for (const file of ['review/charter-home.html', 'snorkeling.html']) {
+    const html = await readOutput(file);
+    const select = html.match(/<select[^>]*name="text"[^>]*>([\s\S]*?)<\/select>/)[1];
+    const options = [...select.matchAll(/<option value="([^"]+)"[^>]*>([^<]+)<\/option>/g)];
+    assert.equal(options.length, 53);
+    const weeks = options.filter(option => option[2] !== 'Other dates');
+    for (const [, message, label] of weeks) {
+      assert.ok(message.includes(label), 'selected visible range is in the submitted WhatsApp message');
+      const [start, end] = label.split(' to ').map(value => new Date(value));
+      assert.equal(start.getDay(), 1);
+      assert.equal(end.getDay(), 0);
+      assert.equal(Math.round((end - start) / 86400000), 6);
+    }
+    assert.ok(weeks.some(([, , label]) => {const [a,b] = label.split(' to '); return new Date(a).getFullYear() !== new Date(b).getFullYear();}));
+  }
+});
+
+
+test('scenario routes remain noindex and outside the production sitemap', async () => {
+  const sitemap = await readOutput('sitemap.xml');
+  for (const route of ['review/charter-home', 'review/charter-home/spearfishing', 'snorkeling', 'spearfishing/learn']) {
+    const html = await readOutput(`${route}.html`);
+    assert.match(html, /name="robots" content="noindex/);
+    assert.match(html, /scenario-header/);
+    assert.doesNotMatch(sitemap, new RegExp(`balimonster.com/${route}<`));
+  }
 });
