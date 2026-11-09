@@ -3,7 +3,7 @@ import { Arrow } from './components';
 import { bookingUrl } from './site';
 
 export function SafetyNote() {
-  return <section className="bm-safety" aria-labelledby="safety-heading"><h2 id="safety-heading">Safety and conditions</h2><p>We cancel trips when conditions are dangerous.</p><p>From first-time snorkelers to advanced freedivers, we tailor the route and pace to your group’s experience and comfort. Our boat, Putri Sri Ayuni (PSA), carries life jackets, safety equipment, a medical kit, and an EPIRB emergency beacon.</p></section>;
+  return <section className="bm-safety" aria-labelledby="safety-heading"><h2 id="safety-heading">Safety and conditions</h2><p>We cancel trips when conditions are dangerous.</p><p>From first-time snorkelers to advanced freedivers, we tailor the route and pace to your group’s experience and comfort. Our boat, Putra Sri Ayuni (PSA), carries life jackets, safety equipment, a medical kit, and an EPIRB emergency beacon.</p></section>;
 }
 
 export function IslandTrips() {

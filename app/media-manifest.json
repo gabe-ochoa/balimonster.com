@@ -102,9 +102,9 @@
     {
       "id": "penida-spearfishing",
       "original": "DSC00785.jpg",
-      "alt": "Two spearfishers with their catches beside Putri Sri Ayuni.",
+      "alt": "Two spearfishers with their catches beside Putra Sri Ayuni.",
       "title": "Penida Spearfishing",
-      "caption": "Two spearfishers with their catches beside Putri Sri Ayuni.",
+      "caption": "Two spearfishers with their catches beside Putra Sri Ayuni.",
       "width": 1280,
       "height": 854
     },
@@ -201,8 +201,8 @@
     {
       "id": "dsc00785",
       "original": "DSC00785.jpg",
-      "alt": "Two spearfishers hold their catches in shallow water in front of Putri Sri Ayuni.",
-      "title": "Spearfishers beside Putri Sri Ayuni",
+      "alt": "Two spearfishers hold their catches in shallow water in front of Putra Sri Ayuni.",
+      "title": "Spearfishers beside Putra Sri Ayuni",
       "caption": "",
       "width": 1280,
       "height": 854
@@ -248,6 +248,33 @@
       "original": "IMG_2800.jpeg",
       "alt": "Three spearfishers hold catches beside Baresa Cargo at sunset.",
       "title": "Three spearfishers hold catches beside Baresa Cargo at sunset.",
+      "caption": "",
+      "width": 1280,
+      "height": 1706
+    },
+    {
+      "id": "dsc00652",
+      "original": "DSC00652.jpg",
+      "alt": "A masked spearfisher holds a large silver fish at the surface.",
+      "title": "Spearfisher with catch",
+      "caption": "",
+      "width": 1280,
+      "height": 854
+    },
+    {
+      "id": "giant-mantas",
+      "original": "bali-manta24.jpg",
+      "alt": "Two manta rays swim above a reef.",
+      "title": "Giant Mantas",
+      "caption": "",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "sashimi-onboard",
+      "original": "sashimi-decoded.jpg",
+      "alt": "Freshly sliced sashimi with wasabi on a board aboard the boat.",
+      "title": "Sashimi Onboard",
       "caption": "",
       "width": 1280,
       "height": 1706

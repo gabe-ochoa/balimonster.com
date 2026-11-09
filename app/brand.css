@@ -170,3 +170,8 @@
 @media(max-width:700px){.learn-packages .bm-activities {grid-template-columns:1fr}.learn-packages .bm-activities article {border-right:0}.week-enquiry select {max-width:100%}}
 
 @media(max-width:700px){.scenario-header {align-items:flex-start;flex-direction:column}.scenario-header nav {max-width:none;justify-content:flex-start;gap:18px;flex-wrap:wrap}.week-enquiry form {align-items:stretch;flex-direction:column}}
+
+.dolphin-film {margin:32px 0 0;max-width:1000px}
+.dolphin-film .loop-media {position:relative;aspect-ratio:16/9}
+.dolphin-film figcaption {margin-top:16px;max-width:850px;line-height:1.7}
+.snorkeling-food>img {max-height:560px;object-fit:cover}

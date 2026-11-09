@@ -64,7 +64,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
   assert.match(html, /rel="canonical" href="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /property="og:url" content="https:\/\/balimonster.com\/gallery"/);
   assert.match(html, /From the Water/);
-  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 28);
+  assert.equal([...html.matchAll(/<figure class="gallery-photo"/g)].length, 31);
   const videos = [...html.matchAll(/<video\b([^>]*)>/g)];
   assert.equal(videos.length, 3);
   for (const [, attributes] of videos) {
@@ -98,7 +98,7 @@ test('internal navigation and anchors resolve in the static export', async () =>
 
 test('published media fits Pages limits and excludes original videos', async () => {
   const files = await readdir(new URL('media/', output));
-  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 8);
+  assert.equal(files.filter(file => file.endsWith('.mp4')).length, 9);
   for (const file of files) {
     assert.match(file, /\.(jpg|mp4)$/);
     assert.ok((await stat(new URL(`media/${file}`, output))).size < 25 * 1024 * 1024, file);
@@ -127,7 +127,7 @@ test('neutral landing and charters keep catches out of the browsing path', async
     assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
   }
   const html = await readOutput('spearfishing.html');
-  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putri Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
+  for (const text of ['REIMAGINED.', 'Putu Ari', 'Opah Kill Bags', 'I shot a fish, can I keep it?', 'Putra Sri Ayuni', '300-litre']) assert.ok(html.includes(text), text);
   for (const photo of ['dsc00785', 'max04603', 'putu-commercial', 'fresh-fillet']) assert.ok(html.includes(`/media/${photo}-`), photo);
 });
 
@@ -216,7 +216,7 @@ test('follow-up preserves mission voice, full boat image, and requested section 
 
 test('PSA and local jukung details render with selected photos and gallery collection', async () => {
  const html = await readOutput('spearfishing.html');
- for (const text of ['BALI MONSTER’S BOAT','Putri Sri Ayuni (PSA)','Garmin Fishfinder 585','first aid kit','flares','electrical outlets','bean bags','400 HP','six guests','250 litres','Semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
+ for (const text of ['BALI MONSTER’S BOAT','Putra Sri Ayuni (PSA)','Garmin Fishfinder 585','first aid kit','flares','electrical outlets','bean bags','400 HP','six guests','250 litres','Semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
  for (const id of ['9197','3071']) assert.ok(html.includes(`/media/jukung-${id}-1280.jpg`));
  for (const id of ['2823','3138','2800']) assert.ok(!html.includes(`/media/jukung-${id}-1280.jpg`));
  const gallery = await readOutput('gallery.html');
@@ -335,4 +335,26 @@ test('scenario routes remain noindex and outside the production sitemap', async 
     assert.match(html, /scenario-header/);
     assert.doesNotMatch(sitemap, new RegExp(`balimonster.com/${route}<`));
   }
+});
+
+
+test('November 9 feedback corrects both boat scenarios and leads snorkeling with day trips', async () => {
+  for (const file of ['spearfishing.html', 'review/charter-home/spearfishing.html', 'charters.html', 'review/charter-home.html']) {
+    const html = await readOutput(file);
+    assert.match(html, /Putra Sri Ayuni/);
+    assert.doesNotMatch(html, /Putri Sri Ayuni/);
+    if (file.includes('spearfishing')) assert.match(html, /Maori Seaperch/);
+  }
+  const home = await readOutput('review/charter-home.html');
+  for (const photo of ['dsc00652', 'giant-mantas']) assert.ok(home.includes(`/media/${photo}-1280.jpg`));
+  const html = await readOutput('snorkeling.html');
+  const day = html.indexOf('id="day-trip-title"');
+  const wildlife = html.indexOf('id="wildlife-title"');
+  const dolphin = html.indexOf('/media/penida-dolphins.mp4');
+  const multi = html.indexOf('Nusa Penida multi-day trips');
+  assert.ok(day > 0 && wildlife > day && dolphin > wildlife && multi > dolphin);
+  for (const fact of ['protected bays', 'Mangrove Point', 'Donut Rock', 'without snorkeling there', 'dietary restrictions', 'Soft drinks, water, and juice', 'additional cost', 'sashimi-onboard-1280.jpg']) assert.ok(html.includes(fact), fact);
+  assert.match(html, /ask a pharmacist/);
+  assert.doesNotMatch(html, /take it the night before/i);
+  assert.match(html, /Wildlife sightings are never guaranteed/);
 });
