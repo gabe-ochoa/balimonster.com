@@ -365,7 +365,7 @@ test('selected charter homepage and Penida itineraries reflect the latest feedba
   assert.match(home, /Private boat/);
   for (const text of ['EPIRB', 'cancel trips', 'dsc00652-1280.jpg', 'giant-mantas-1280.jpg']) assert.ok(home.includes(text));
   assert.doesNotMatch(home, /camping/i);
-  assert.match(home, /rel="canonical" href="https:\/\/balimonster.com\//);
+  assert.match(home, /rel="canonical" href="https:\/\/balimonster\.com\/?"/);
   const spear = await readOutput('spearfishing.html');
   assert.match(spear, /scenario-header/);
   for (const route of ['/', '/snorkeling', '/spearfishing']) assert.ok(spear.includes(`href="${route}"`));
