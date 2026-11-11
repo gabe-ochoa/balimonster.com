@@ -82,7 +82,7 @@ test('gallery has its own metadata, real media, and working booking links', asyn
 });
 
 test('internal navigation and anchors resolve in the static export', async () => {
-  const pages = { '/review/charter-home/spearfishing': 'review/charter-home/spearfishing.html', '/review/charter-home': 'review/charter-home.html', '/snorkeling': 'snorkeling.html', '/spearfishing/learn': 'spearfishing/learn.html', '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/spearfishing/trip-first': 'spearfishing/trip-first.html', '/spearfishing/crew-first': 'spearfishing/crew-first.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
+  const pages = { '/discover-nusa-penida': 'discover-nusa-penida.html', '/review/charter-home/spearfishing': 'review/charter-home/spearfishing.html', '/review/charter-home': 'review/charter-home.html', '/snorkeling': 'snorkeling.html', '/spearfishing/learn': 'spearfishing/learn.html', '/': 'index.html', '/missions': 'missions.html', '/gallery': 'gallery.html', '/charters': 'charters.html', '/spearfishing': 'spearfishing.html', '/spearfishing/trip-first': 'spearfishing/trip-first.html', '/spearfishing/crew-first': 'spearfishing/crew-first.html', '/blog/spearfishing-in-indonesia': 'blog/spearfishing-in-indonesia.html' };
   for (const [route, file] of Object.entries(pages)) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /ocean-diver\.jpg|\/og\.png|WE SLAY/);
@@ -107,7 +107,7 @@ test('published media fits Pages limits and excludes original videos', async () 
 
 
 test('neutral landing and charters keep catches out of the browsing path', async () => {
-  for (const file of ['index.html', 'charters.html']) {
+  for (const file of ['charters.html']) {
     const html = await readOutput(file);
     assert.match(html, /BALI MONSTER/);
     assert.doesNotMatch(html, /(?:src|poster|content)="[^" ]*(?:two-catches|catch-closeup|blue-water-catch|sunset-crew|boat-day|sunset-return|heading-home)/);
@@ -121,9 +121,9 @@ test('neutral landing and charters keep catches out of the browsing path', async
 });
 
  test('review feedback renders destinations, safety, founder, and catch policy', async () => {
-  for (const file of ['index.html', 'charters.html']) {
+  for (const file of ['charters.html']) {
     const html = await readOutput(file);
-    for (const text of ['Nusa Penida', 'Nusa Lembongan', 'Nusa Ceningan', 'Manta Point', 'Padang Bai', 'Tulamben', 'EPIRB', 'cancel trips']) assert.ok(html.includes(text), `${file}: ${text}`);
+    for (const text of ['Nusa Penida', 'Nusa Lembongan', 'Manta Point', 'Padang Bai', 'EPIRB', 'cancel trips']) assert.ok(html.includes(text), `${file}: ${text}`);
     assert.doesNotMatch(html, /src="[^" ]*(?:penida-spearfishing|putu-commercial|fresh-fillet)/);
   }
   const html = await readOutput('spearfishing.html');
@@ -132,10 +132,10 @@ test('neutral landing and charters keep catches out of the browsing path', async
 });
 
 test('October 14 feedback removes camping and adds island stays and linked field notes', async () => {
-  for (const file of ['index.html', 'charters.html']) {
+  for (const file of ['charters.html']) {
     const html = await readOutput(file);
     assert.doesNotMatch(html, /camping/i);
-    for (const text of ['cliffs', 'hidden bays', 'island temple', 'soft corals', 'mangrove forest', 'Blue Lagoon', 'Multi-day trips', 'by land']) assert.ok(html.includes(text), `${file}: ${text}`);
+    for (const text of ['cliffs', 'hidden bays', 'island temple', 'soft corals', 'mangrove forest', 'Multi-day trips', 'by land']) assert.ok(html.includes(text), `${file}: ${text}`);
   }
   const route = '/blog/spearfishing-in-indonesia';
   assert.ok((await readOutput('spearfishing.html')).includes(`href="${route}"`));
@@ -149,7 +149,7 @@ test('October 14 feedback removes camping and adds island stays and linked field
 test('October 17 feedback places silent loops on the right pages and alphabetizes guides', async () => {
   for (const file of ['index.html', 'charters.html', 'spearfishing.html']) {
     const html = await readOutput(file);
-    const expected = file === 'spearfishing.html' ? ['spearfishing-20261023'] : file === 'charters.html' ? ['penida-hero', 'manta-snorkeling-trimmed', 'snorkeling-trevally'] : ['penida-hero', 'snorkeling-trevally'];
+    const expected = file === 'spearfishing.html' ? ['spearfishing-20261023'] : file === 'charters.html' ? ['penida-hero', 'manta-snorkeling-trimmed', 'snorkeling-trevally'] : ['penida-hero'];
     for (const id of expected) {
       assert.ok(html.includes(`/media/${id}.mp4`), `${file}: ${id}`);
       assert.ok(html.includes(`/media/${id}-poster.jpg`));
@@ -262,7 +262,7 @@ test('review variants retain full content with distinct section orders and conci
 
  test('charters places the manta film below destinations and includes Putu’s supplied portrait and bio', async () => {
   const html = (await readOutput('charters.html')).replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
-  assert.ok(html.indexOf('/media/manta-snorkeling-trimmed.mp4') > html.indexOf('<h3>Nusa Ceningan</h3>'));
+  assert.ok(html.indexOf('/media/manta-snorkeling-trimmed.mp4') > html.indexOf('<h3>Nusa Lembongan</h3>'));
   assert.ok(html.indexOf('/media/manta-snorkeling-trimmed.mp4') < html.indexOf('class="bm-story bm-snorkeling"'));
   assert.ok(html.indexOf('id="charter-captain-title"') < html.indexOf('<h2>Destinations</h2>'));
   assert.match(html, /putu-smile-1280.jpg/);
@@ -272,7 +272,7 @@ test('review variants retain full content with distinct section orders and conci
 
 test('charter scenario routes guests to activities and keeps availability unconfirmed', async () => {
   const home = await readOutput('review/charter-home.html');
-  for (const route of ['/snorkeling', '/review/charter-home/spearfishing']) assert.ok(home.includes(`href="${route}"`));
+  for (const route of ['/snorkeling', '/spearfishing']) assert.ok(home.includes(`href="${route}"`));
   assert.match(home, /Komodo/);
   assert.match(home, /G-Land and Alas Purwo/);
   assert.match(home, /name="robots" content="noindex/);
@@ -352,9 +352,36 @@ test('November 9 feedback corrects both boat scenarios and leads snorkeling with
   const wildlife = html.indexOf('id="wildlife-title"');
   const dolphin = html.indexOf('/media/penida-dolphins.mp4');
   const multi = html.indexOf('Nusa Penida multi-day trips');
-  assert.ok(day > 0 && wildlife > day && dolphin > wildlife && multi > dolphin);
+  assert.ok(day > 0 && wildlife > day && dolphin > wildlife && multi > day && multi < wildlife);
   for (const fact of ['protected bays', 'Mangrove Point', 'Donut Rock', 'without snorkeling there', 'dietary restrictions', 'Soft drinks, water, and juice', 'additional cost', 'sashimi-onboard-1280.jpg']) assert.ok(html.includes(fact), fact);
   assert.match(html, /ask a pharmacist/);
   assert.doesNotMatch(html, /take it the night before/i);
   assert.match(html, /Wildlife sightings are never guaranteed/);
+});
+
+
+test('selected charter homepage and Penida itineraries reflect the latest feedback', async () => {
+  const home = await readOutput('index.html');
+  assert.match(home, /Private boat/);
+  for (const text of ['EPIRB', 'cancel trips', 'dsc00652-1280.jpg', 'giant-mantas-1280.jpg']) assert.ok(home.includes(text));
+  assert.doesNotMatch(home, /camping/i);
+  assert.match(home, /rel="canonical" href="https:\/\/balimonster.com\//);
+  const spear = await readOutput('spearfishing.html');
+  assert.match(spear, /scenario-header/);
+  for (const route of ['/', '/snorkeling', '/spearfishing']) assert.ok(spear.includes(`href="${route}"`));
+  assert.match(home, /Three beers per guest/);
+  assert.match(home, /10 guests/);
+  assert.match(home, /href="\/snorkeling"/);
+  const snorkel = await readOutput('snorkeling.html');
+  assert.ok(snorkel.indexOf('id="day-trip-title"') < snorkel.indexOf('id="land-sea"'));
+  assert.ok(snorkel.indexOf('id="land-sea"') < snorkel.indexOf('id="multi-day"'));
+  for (const text of ['beach club', 'Day 1:', 'Day 2:', 'Day 3:', 'two nights', 'Sanur in the afternoon', 'All required snorkeling gear is included']) assert.ok(snorkel.includes(text), text);
+  for (const file of ['index.html', 'snorkeling.html', 'charters.html', 'spearfishing.html', 'discover-nusa-penida.html']) {
+    const html = await readOutput(file);
+    assert.doesNotMatch(html, /Tulamben|Ceningan|Blue Lagoon|beach grill/);
+  }
+  const guide = await readOutput('discover-nusa-penida.html');
+  for (const text of ['Donut Rock', 'Kelingking Beach', 'Broken Beach', 'Manta Point', 'Crystal Bay', 'Gamat Bay', 'Toya Pakeh', 'SD Point', 'Nusa Lembongan', '/media/kelingking-1280.jpg']) assert.ok(guide.includes(text), text);
+  assert.ok(snorkel.includes('href="/discover-nusa-penida"'));
+  assert.match(snorkel, /fresh sashimi/);
 });

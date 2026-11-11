@@ -175,3 +175,5 @@
 .dolphin-film .loop-media {position:relative;aspect-ratio:16/9}
 .dolphin-film figcaption {margin-top:16px;max-width:850px;line-height:1.7}
 .snorkeling-food>img {max-height:560px;object-fit:cover}
+.penida-photo>img {max-height:680px;object-fit:cover;object-position:center 65%}
+.scenario-copy li {margin:16px 0;line-height:1.7}

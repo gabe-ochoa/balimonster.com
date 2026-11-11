@@ -1,3 +1,3 @@
-import { Landing } from './brand-pages';
-import { concept } from './concept';
-export default function Home() { return <Landing variant={concept} />; }
+import { CharterHome } from './charter-scenario';
+export const metadata = { title: 'Bali Monster | Private Boat Charters in Bali', alternates: { canonical: 'https://balimonster.com/' }, openGraph: { url: 'https://balimonster.com/', title: 'Bali Monster | Private Boat Charters in Bali' } };
+export default CharterHome;

@@ -97,5 +97,5 @@ export default function SpearfishingPage({ variant = 'current', scenario = false
       </section>
 <MobileBooking activity="spearfishing" />
 {sectionOrders[variant].map(key => <Fragment key={key}>{sections[key]}</Fragment>)}
-</main><div className="bm"><BrandFooter home={scenario ? "/review/charter-home" : "/"} /></div></>;
+</main><div className="bm"><BrandFooter home="/" /></div></>;
 }

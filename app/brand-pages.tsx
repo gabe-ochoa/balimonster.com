@@ -16,7 +16,7 @@ export function BrandFooter({ home = '/' }: { home?: string }) {
   return <footer className="bm-footer"><a className="bm-wordmark" href={home}>BALI MONSTER<span>BALI, INDONESIA</span></a><a href={home}>All activities ↗</a><BusinessDetails /></footer>;
 }
 const activities = [
-  {id:'snorkeling',title:'Snorkeling',subtitle:'Penida. Lembongan. Ceningan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai and Tulamben, with routes for beginners and advanced guests.'},
+  {id:'snorkeling',title:'Snorkeling',subtitle:'Penida and Lembongan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai, with routes for beginners and advanced guests.'},
   {id:'sunsets',title:'Sunsets',subtitle:'Nusa Dua and Waterblow.',detail:'Watch the last light at Nusa Dua and Waterblow, or take in views of Bali from the boat. We plan the route around the evening’s conditions.'},
   {id:'sportfishing',title:'Sportfishing',subtitle:'',detail:'Plan a fishing day from the boat. Discuss your experience, equipment, and the kind of trip you have in mind.'},
   {id:'island-transfer',title:'Island transfer',subtitle:'Gili Islands and other routes by arrangement.',detail:'Transfers to the Gili Islands and longer island charters. Tell us which island you have in mind so we can confirm the route, conditions, and arrangements.'},
