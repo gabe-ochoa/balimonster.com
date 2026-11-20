@@ -374,7 +374,7 @@ test('selected charter homepage and Penida itineraries reflect the latest feedba
   assert.match(home, /href="\/snorkeling"/);
   const snorkel = await readOutput('snorkeling.html');
   assert.ok(snorkel.indexOf('id="day-trip-title"') < snorkel.indexOf('id="land-sea"'));
-  assert.ok(snorkel.indexOf('id="land-sea"') < snorkel.indexOf('id="multi-day"'));
+  assert.ok(snorkel.indexOf('id="multi-day"') < snorkel.indexOf('id="land-sea"'));
   for (const text of ['beach club', 'Day 1:', 'Day 2:', 'Day 3:', 'two nights', 'Sanur in the afternoon', 'All required snorkeling gear is included']) assert.ok(snorkel.includes(text), text);
   for (const file of ['index.html', 'snorkeling.html', 'charters.html', 'spearfishing.html', 'discover-nusa-penida.html']) {
     const html = await readOutput(file);
@@ -384,4 +384,19 @@ test('selected charter homepage and Penida itineraries reflect the latest feedba
   for (const text of ['Donut Rock', 'Kelingking Beach', 'Broken Beach', 'Manta Point', 'Crystal Bay', 'Gamat Bay', 'Toya Pakeh', 'SD Point', 'Nusa Lembongan', '/media/kelingking-1280.jpg']) assert.ok(guide.includes(text), text);
   assert.ok(snorkel.includes('href="/discover-nusa-penida"'));
   assert.match(snorkel, /fresh sashimi/);
+});
+
+
+test('published day trip prices are readable and custom trips remain individually quoted', async () => {
+  const spear = await readOutput('spearfishing.html');
+  const snorkel = await readOutput('snorkeling.html');
+  for (const value of ['8,500,000','10,000,000','12,500,000','15,000,000','17,500,000','20,000,000','4,167,000','3,333,000','nearest IDR 1,000','one dedicated guide for every 2 guests']) assert.ok(spear.includes(value), value);
+  for (const value of ['4,000,000','3,500,000','3,000,000','2,600,000','2,333,000','From 1,500,000','14,000,000','everyone agrees','same final per-person rate','quoted individually']) assert.ok(snorkel.includes(value),value);
+  for (const html of [spear,snorkel]) {
+    assert.match(html, /<caption>/);
+    assert.match(html, /scope="col"/);
+    assert.ok(!html.includes('[30%]'));
+    assert.ok(!html.includes('+62 ___'));
+  }
+  assert.match(snorkel, /id="land-sea"><h3>/);
 });

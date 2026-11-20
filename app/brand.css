@@ -177,3 +177,11 @@
 .snorkeling-food>img {max-height:560px;object-fit:cover}
 .penida-photo>img {max-height:680px;object-fit:cover;object-position:center 65%}
 .scenario-copy li {margin:16px 0;line-height:1.7}
+
+.trip-pricing {margin-top: 36px; max-width: 780px;}
+.trip-pricing h3 {margin: 32px 0 16px;}
+.trip-pricing table {width:100%; border-collapse:collapse; margin:24px 0; font-variant-numeric:tabular-nums; font-size:clamp(.8rem,2.5vw,1rem);}
+.trip-pricing caption {text-align:left; margin-bottom:12px;}
+.trip-pricing th,.trip-pricing td {text-align:right; padding:12px 8px; border-bottom:1px solid currentColor;}
+.trip-pricing th:first-child {text-align:left;}
+.trip-pricing .price-note {font-size:.85rem;}
