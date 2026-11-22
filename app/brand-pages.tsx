@@ -1,5 +1,6 @@
 import BusinessDetails from './business-details';
 /* eslint-disable @next/next/no-html-link-for-pages */
+import { BrandLogo } from './components';
 import { Photo, Arrow } from './components';
 import { bookingUrl } from './site';
 import LoopVideo from './loop-video';
@@ -7,13 +8,13 @@ import ActivityPicker from './activity-picker';
 import { IslandTrips, SnorkelingStory, BeachDays, SafetyNote, IslandStays } from './trip-details';
 
 export function BrandHeader({ activity }: { activity?: string }) {
-  return <><a className="skip-link" href="#main">Skip to content</a><header className="bm-header" id="top"><a className="bm-wordmark" href="/" aria-label="Bali Monster home">BALI MONSTER<span>{activity || 'BOAT CHARTERS & SPEARFISHING'}</span></a><nav aria-label="Main navigation"><a href="/charters">Boat charters</a><a href="/spearfishing">Spearfishing</a><a className="bm-nav-cta" href={bookingUrl(activity || 'a trip in Bali')}>Plan a trip <Arrow /></a></nav></header></>;
+  return <><a className="skip-link" href="#main">Skip to content</a><header className="bm-header" id="top"><a className="bm-wordmark" href="/" aria-label="Bali Monster home"><BrandLogo /></a><nav aria-label="Main navigation"><a href="/charters">Boat charters</a><a href="/spearfishing">Spearfishing</a><a className="bm-nav-cta" href={bookingUrl(activity || 'a trip in Bali')}>Plan a trip <Arrow /></a></nav></header></>;
 }
 export function MobileBooking({ activity = 'a boat charter' }: { activity?: string }) {
   return <div className="bm-mobile-booking"><a className="bm-button" href={bookingUrl(activity)}>Book on WhatsApp <Arrow /></a></div>;
 }
 export function BrandFooter({ home = '/' }: { home?: string }) {
-  return <footer className="bm-footer"><a className="bm-wordmark" href={home}>BALI MONSTER<span>BALI, INDONESIA</span></a><a href={home}>All activities ↗</a><BusinessDetails /></footer>;
+  return <footer className="bm-footer"><a className="bm-wordmark" href={home}><BrandLogo /></a><a href={home}>All activities ↗</a><BusinessDetails /></footer>;
 }
 const activities = [
   {id:'snorkeling',title:'Snorkeling',subtitle:'Penida and Lembongan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai, with routes for beginners and advanced guests.'},

@@ -400,3 +400,24 @@ test('published day trip prices are readable and custom trips remain individuall
   }
   assert.match(snorkel, /id="land-sea"><h3>/);
 });
+
+
+test('November 22 boat totals and supplied vector branding render', async () => {
+ const snorkel = (await readOutput('snorkeling.html')).replace(/<!--.*?-->/g,'');
+ const table = snorkel.match(/<table><caption>Shared snorkeling[\s\S]*?<\/table>/)[0];
+ const rows = [...table.matchAll(/<tr><th scope="row">(\d+)<\/th><td>(.*?)<\/td><td>(.*?)<\/td><\/tr>/g)];
+ assert.equal(rows.length,9);
+ for (const [,guests,rate,total] of rows) {
+  const amount = text => Number(text.replace(/[^0-9]/g,''));
+  assert.equal(amount(total), Number(guests)*amount(rate));
+  assert.equal(total.startsWith('From '), Number(guests)>=7);
+ }
+ assert.match(table, /Guests onboard[\s\S]*Price per guest[\s\S]*Total boat cost/);
+ for (const file of ['index.html','snorkeling.html','spearfishing.html','gallery.html']) {
+  const html = await readOutput(file);
+  assert.ok(html.includes('aria-label="Bali Monster Boat Charter"'));
+  assert.ok(!html.includes('/brand/bali-monster-icon.jpg'));
+ }
+ const spear=await readOutput('spearfishing.html');
+ assert.ok(spear.includes('/brand/boat-charter-graphic.svg'));
+});

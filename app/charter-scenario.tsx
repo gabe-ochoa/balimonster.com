@@ -1,7 +1,7 @@
 /* Static Pages navigation uses native links, matching the existing site components. */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { BrandFooter, CharterCaptain, MobileBooking } from './brand-pages';
-import { Photo, Arrow } from './components';
+import { Photo, Arrow, BrandLogo } from './components';
 import LoopVideo from './loop-video';
 import { bookingUrl } from './site';
 import { SafetyNote } from './trip-details';
@@ -9,7 +9,7 @@ import { SnorkelingPricing } from './trip-pricing';
 import WeekEnquiry from './week-enquiry';
 
 export function ScenarioHeader() {
-  return <><a className="skip-link" href="#main">Skip to content</a><header className="bm-header scenario-header"><a className="bm-wordmark" href="/">BALI MONSTER<span>BALI, INDONESIA</span></a><nav aria-label="Main navigation"><a href="/">Boat charters</a><a href="/snorkeling">Snorkeling</a><a href="/spearfishing">Spearfishing</a></nav></header></>;
+  return <><a className="skip-link" href="#main">Skip to content</a><header className="bm-header scenario-header"><a className="bm-wordmark" href="/"><BrandLogo /></a><nav aria-label="Main navigation"><a href="/">Boat charters</a><a href="/snorkeling">Snorkeling</a><a href="/spearfishing">Spearfishing</a></nav></header></>;
 }
 export function CharterHome() {
   return <div className="bm" id="top"><ScenarioHeader /><main id="main">

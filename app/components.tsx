@@ -5,10 +5,11 @@ import { bookingUrl } from './site';
 import media from './media-manifest.json';
 
 export function Arrow() { return <span aria-hidden="true">↗</span>; }
+export function BrandLogo() {
+  return <span className="boat-charter-logo" role="img" aria-label="Bali Monster Boat Charter" />;
+}
 export function Brand() {
-  // Transparency is baked into the PNG so the logo works without CSS masking.
-  // eslint-disable-next-line @next/next/no-img-element
-  return <a className="brand" href="/#top" aria-label="Bali Monster Spearfishing home"><img src="/brand/bali-monster-logo-transparent.png" width={1536} height={1024} alt="Bali Monster Spearfishing" /></a>;
+  return <a className="brand" href="/#top" aria-label="Bali Monster home"><BrandLogo /></a>;
 }
 export function Header({ gallery = false }: { gallery?: boolean }) {
   return <><a className="skip-link" href="#main">Skip to content</a><header className={`site-header${gallery ? ' gallery-header' : ''}`} id="top"><div className="container header-inner"><Brand /><nav aria-label="Main navigation"><a href="/#experiences">The experiences</a><a className="gallery-nav" href="/gallery" aria-current={gallery ? 'page' : undefined}>From the water</a><a className="header-cta" href={bookingUrl()}>Let&apos;s talk <Arrow /></a></nav></div></header></>;
@@ -34,5 +35,5 @@ export function Film({ id, showCaption = true }: { id: string; showCaption?: boo
 
 export function BrandIllustration() {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img className="brand-illustration" src="/brand/bali-monster-icon.jpg" width={1536} height={1024} alt="" aria-hidden="true" loading="lazy" decoding="async" />;
+  return <img className="brand-illustration" src="/brand/boat-charter-graphic.svg" width={1508} height={883} alt="" aria-hidden="true" loading="lazy" decoding="async" />;
 }
