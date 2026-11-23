@@ -1,4 +1,4 @@
-import { SpearfishingPricing } from './trip-pricing';
+import { SpearfishingPricing, LocalSpearfishingPricing } from './trip-pricing';
 import { Fragment } from 'react';
 import { ScenarioHeader } from './charter-scenario';
 import LoopVideo from './loop-video';
@@ -88,7 +88,7 @@ export default function SpearfishingPage({ variant = 'current', scenario = false
     article: (<section className="bm bm-section"><h2>Spearfishing<br />in Indonesia.</h2><p>What to expect from the currents, the drifts, and a day with an experienced local crew.</p><a className="bm-link" href="/blog/spearfishing-in-indonesia">Read the field notes <Arrow /></a></section>),
     booking: (<section className="booking section-light" id="plan-your-trip" aria-labelledby="booking-title"><div className="container booking-grid"><div><h2 id="booking-title">HOW TO BOOK</h2></div><ol className="booking-steps"><li><span>01</span><div><h3>Tell us what you&apos;re into.</h3><p>Blue water drifting, reef hunting, or a mission. Tell us which trip interests you.</p></div></li><li><span>02</span><div><h3>Share a few details.</h3><p>Your dates, group size, and experience help us talk through the right trip for you.</p></div></li><li><span>03</span><div><h3>Plan it together.</h3><p>We&apos;ll discuss availability, pricing, meeting points, and what to bring on WhatsApp.</p></div></li></ol></div></section>),
     faq: (<section className="faq section-light" aria-labelledby="faq-title"><div className="container faq-grid"><div><h2 id="faq-title">QUESTIONS</h2></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>),
-    local: (<section className="section-light spear-detail" id="jukung" aria-labelledby="jukung-title"><div className="container"><div className="boat-description"><h2 id="jukung-title">LOCAL TRIPS ON BARESA CARGO</h2><p>For half-day local trips or spearos on a budget, we use Putu’s jukung, Baresa Cargo, for nearshore spearfishing. This is a local-style trip for one or two spearos, with lunch included.</p><p>If you’re learning to spearfish and are a true beginner, this is a good place to start. We visit Serangan, Benoa, and Nusa Dua. These trips do not go to Nusa Penida.</p><a className="text-link" href={bookingUrl('a half-day local trip on Baresa Cargo')}>Ask about a local trip <Arrow /></a></div><div className="jukung-photos"><Photo id="jukung-9197" /><Photo id="jukung-3071" /></div></div></section>),
+    local: (<section className="section-light spear-detail" id="jukung" aria-labelledby="jukung-title"><div className="container"><div className="boat-description"><h2 id="jukung-title">LOCAL TRIPS ON BARESA CARGO</h2><p>For half-day local trips or spearos on a budget, we use Putu’s jukung, Baresa Cargo, for nearshore spearfishing. Lunch is included.</p><p>If you’re learning to spearfish and are a true beginner, this is a good place to start. We visit Serangan, Benoa, Nusa Dua, and Padangbai. These trips do not go to Nusa Penida.</p><a className="text-link" href={bookingUrl('a half-day local trip on Baresa Cargo')}>Ask about a local trip <Arrow /></a></div><LocalSpearfishingPricing /><div className="jukung-photos"><Photo id="jukung-9197" /><Photo id="jukung-3071" /></div></div></section>),
     cta: (<section className="final-cta" aria-labelledby="cta-title"><div className="container"><h2 id="cta-title">BOOK A TRIP</h2><a className="button button-dark" href={bookingUrl()}>Chat with us on WhatsApp <Arrow /></a><a className="contact-number" href={bookingUrl()}>{site.phoneDisplay}</a></div><BrandIllustration /></section>)
   };
   return <><div className="bm">{scenario ? <ScenarioHeader /> : <BrandHeader activity="SPEARFISHING" />}</div><main id="main">
@@ -98,5 +98,5 @@ export default function SpearfishingPage({ variant = 'current', scenario = false
       </section>
 <MobileBooking activity="spearfishing" />
 {sectionOrders[variant].map(key => <Fragment key={key}>{sections[key]}</Fragment>)}
-</main><div className="bm"><BrandFooter home="/" /></div></>;
+</main><div className="bm"><BrandFooter home="/" showGraphic={false} /></div></>;
 }

@@ -216,7 +216,7 @@ test('follow-up preserves mission voice, full boat image, and requested section 
 
 test('PSA and local jukung details render with selected photos and gallery collection', async () => {
  const html = await readOutput('spearfishing.html');
- for (const text of ['BALI MONSTER’S BOAT','Putra Sri Ayuni (PSA)','Garmin Fishfinder 585','first aid kit','flares','electrical outlets','bean bags','400 HP','six guests','250 litres','Semi-enclosed cabin','BARESA CARGO','lunch included','Serangan, Benoa, and Nusa Dua','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
+ for (const text of ['BALI MONSTER’S BOAT','Putra Sri Ayuni (PSA)','Garmin Fishfinder 585','first aid kit','flares','electrical outlets','bean bags','400 HP','six guests','250 litres','Semi-enclosed cabin','BARESA CARGO','Lunch is included','Serangan, Benoa, Nusa Dua, and Padangbai','NUSA PENIDA','38 ft (about 11.6 m)']) assert.ok(html.includes(text),text);
  for (const id of ['9197','3071']) assert.ok(html.includes(`/media/jukung-${id}-1280.jpg`));
  for (const id of ['2823','3138','2800']) assert.ok(!html.includes(`/media/jukung-${id}-1280.jpg`));
  const gallery = await readOutput('gallery.html');
@@ -237,7 +237,7 @@ test('business identity, address and email appear in every shared footer', async
     const html = await readOutput(file);
     const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0];
     assert.ok(footer, file);
-    for (const text of ['PT BALI MONSTER CHARTER','Since 2026','Jl. Sekuta, Gg. Batan No. 69A','Denpasar Selatan','80228','href="mailto:balimonstercharter@gmail.com"']) assert.ok(footer.includes(text), `${file}: ${text}`);
+    for (const text of ['PT BALI MONSTER CHARTER','Since 2026','Jl. Sekuta, Gg. Batan No. 69A','Denpasar Selatan','80228','href="mailto:balimonstercharters@gmail.com"']) assert.ok(footer.includes(text), `${file}: ${text}`);
   }
 });
 
@@ -406,7 +406,7 @@ test('November 22 boat totals and supplied vector branding render', async () => 
  const snorkel = (await readOutput('snorkeling.html')).replace(/<!--.*?-->/g,'');
  const table = snorkel.match(/<table><caption>Shared snorkeling[\s\S]*?<\/table>/)[0];
  const rows = [...table.matchAll(/<tr><th scope="row">(\d+)<\/th><td>(.*?)<\/td><td>(.*?)<\/td><\/tr>/g)];
- assert.equal(rows.length,9);
+ assert.equal(rows.length,11);
  for (const [,guests,rate,total] of rows) {
   const amount = text => Number(text.replace(/[^0-9]/g,''));
   assert.equal(amount(total), Number(guests)*amount(rate));
@@ -420,4 +420,23 @@ test('November 22 boat totals and supplied vector branding render', async () => 
  }
  const spear=await readOutput('spearfishing.html');
  assert.ok(spear.includes('/brand/boat-charter-graphic.svg'));
+});
+
+
+test('local trip prices, separate tuition, twelve-guest rates and contact details render', async () => {
+  const spear = (await readOutput('spearfishing.html')).replace(/<!--.*?-->/g,'');
+  assert.match(spear, /Serangan local spearfishing prices in IDR/);
+  for (const row of ['1</th><td>1,500,000</td><td>1,500,000','2</th><td>1,250,000</td><td>2,500,000','3</th><td>1,000,000</td><td>3,000,000','4</th><td>1,000,000</td><td>4,000,000','2</th><td>2,250,000</td><td>4,500,000','3 or more</th><td>2,000,000</td><td>2,000,000 × guests']) assert.ok(spear.includes(row),row);
+  assert.match(spear, /Teaching classes are priced separately/);
+  assert.doesNotMatch(spear, /one or two spearos/);
+  const learn = await readOutput('spearfishing/learn.html');
+  assert.match(learn, /one guest with one guide/);
+  const snorkel = (await readOutput('snorkeling.html')).replace(/<!--.*?-->/g,'');
+  for (const row of ['11</th><td>From 1,500,000</td><td>From 16,500,000','12</th><td>From 1,500,000</td><td>From 18,000,000']) assert.ok(snorkel.includes(row),row);
+  for (const file of ['index.html','snorkeling.html','spearfishing.html','gallery.html','charters.html','missions.html','spearfishing/learn.html','discover-nusa-penida.html','blog/spearfishing-in-indonesia.html']) {
+    const html=await readOutput(file);
+    assert.equal(html.split('src="/brand/boat-charter-graphic.svg"').length-1,1,file);
+    assert.match(html,/href="mailto:balimonstercharters@gmail.com"/);
+    assert.doesNotMatch(html,/balimonstercharter@gmail.com/);
+  }
 });

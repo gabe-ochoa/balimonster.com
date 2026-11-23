@@ -1,6 +1,6 @@
 import BusinessDetails from './business-details';
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { BrandLogo } from './components';
+import { BrandLogo, BrandIllustration } from './components';
 import { Photo, Arrow } from './components';
 import { bookingUrl } from './site';
 import LoopVideo from './loop-video';
@@ -13,8 +13,8 @@ export function BrandHeader({ activity }: { activity?: string }) {
 export function MobileBooking({ activity = 'a boat charter' }: { activity?: string }) {
   return <div className="bm-mobile-booking"><a className="bm-button" href={bookingUrl(activity)}>Book on WhatsApp <Arrow /></a></div>;
 }
-export function BrandFooter({ home = '/' }: { home?: string }) {
-  return <footer className="bm-footer"><a className="bm-wordmark" href={home}><BrandLogo /></a><a href={home}>All activities ↗</a><BusinessDetails /></footer>;
+export function BrandFooter({ home = '/', showGraphic = true }: { home?: string; showGraphic?: boolean }) {
+  return <>{showGraphic && <div className="brand-footer-art"><BrandIllustration /></div>}<footer className="bm-footer"><a className="bm-wordmark" href={home}><BrandLogo /></a><a href={home}>All activities ↗</a><BusinessDetails /></footer></>;
 }
 const activities = [
   {id:'snorkeling',title:'Snorkeling',subtitle:'Penida and Lembongan.',detail:'Explore the Nusa islands, including Manta Point when conditions allow. We also offer snorkeling at Padang Bai, with routes for beginners and advanced guests.'},
