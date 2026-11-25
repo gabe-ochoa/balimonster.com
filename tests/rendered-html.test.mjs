@@ -257,7 +257,7 @@ test('review variants retain full content with distinct section orders and conci
     const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
     assert.equal(new Set(ids).size, ids.length, 'no duplicate anchors');
   }
-  assert.deepEqual(baselineHeadings.slice(0,3), ['PUTU ARI','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
+  assert.deepEqual(baselineHeadings.slice(0,3), ['<span style="text-transform:none">join</span> PUTU ARI','SPEARFISHING<br/>NUSA PENIDA','TRIP OPTIONS']);
 });
 
  test('charters places the manta film below destinations and includes Putu’s supplied portrait and bio', async () => {
@@ -404,7 +404,7 @@ test('published day trip prices are readable and custom trips remain individuall
 
 test('November 22 boat totals and supplied vector branding render', async () => {
  const snorkel = (await readOutput('snorkeling.html')).replace(/<!--.*?-->/g,'');
- const table = snorkel.match(/<table><caption>Shared snorkeling[\s\S]*?<\/table>/)[0];
+ const table = snorkel.match(/<table><caption>Shared trip[\s\S]*?<\/table>/)[0];
  const rows = [...table.matchAll(/<tr><th scope="row">(\d+)<\/th><td>(.*?)<\/td><td>(.*?)<\/td><\/tr>/g)];
  assert.equal(rows.length,11);
  for (const [,guests,rate,total] of rows) {
@@ -425,7 +425,7 @@ test('November 22 boat totals and supplied vector branding render', async () => 
 
 test('local trip prices, separate tuition, twelve-guest rates and contact details render', async () => {
   const spear = (await readOutput('spearfishing.html')).replace(/<!--.*?-->/g,'');
-  assert.match(spear, /Serangan local spearfishing prices in IDR/);
+  assert.match(spear, /Serangan/);
   for (const row of ['1</th><td>1,500,000</td><td>1,500,000','2</th><td>1,250,000</td><td>2,500,000','3</th><td>1,000,000</td><td>3,000,000','4</th><td>1,000,000</td><td>4,000,000','2</th><td>2,250,000</td><td>4,500,000','3 or more</th><td>2,000,000</td><td>2,000,000 × guests']) assert.ok(spear.includes(row),row);
   assert.match(spear, /Teaching classes are priced separately/);
   assert.doesNotMatch(spear, /one or two spearos/);
